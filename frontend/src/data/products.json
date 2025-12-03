@@ -1,0 +1,99 @@
+[
+    {
+      "id": "p1",
+      "name": "Classic White T-Shirt",
+      "price": 19.99,
+      "category": "Clothing",
+      "image": "/assets/products/white-tshirt.png",
+      "description": "A soft, breathable cotton t-shirt perfect for everyday wear."
+    },
+    {
+      "id": "p2",
+      "name": "Black Oversized Hoodie",
+      "price": 39.99,
+      "category": "Clothing",
+      "image": "/assets/products/black-hoodie.png",
+      "description": "Cozy oversized hoodie with premium fleece lining."
+    },
+    {
+      "id": "p3",
+      "name": "Running Sneakers",
+      "price": 59.99,
+      "category": "Footwear",
+      "image": "/assets/products/sneakers.png",
+      "description": "Lightweight running shoes designed for comfort and performance."
+    },
+    {
+      "id": "p4",
+      "name": "Sports Wristwatch",
+      "price": 49.99,
+      "category": "Accessories",
+      "image": "/assets/products/sports-watch.png",
+      "description": "Durable and water-resistant wristwatch with digital display."
+    },
+    {
+      "id": "p5",
+      "name": "Polarized Sunglasses",
+      "price": 24.99,
+      "category": "Accessories",
+      "image": "/assets/products/sunglasses.png",
+      "description": "Stylish sunglasses with UV protection and polarized lenses."
+    },
+    {
+      "id": "p6",
+      "name": "Leather Backpack",
+      "price": 89.99,
+      "category": "Bags",
+      "image": "/assets/products/backpack.png",
+      "description": "Minimalist leather backpack ideal for travel and work."
+    },
+    {
+      "id": "p7",
+      "name": "Bluetooth Earbuds",
+      "price": 29.99,
+      "category": "Electronics",
+      "image": "/assets/products/earbuds.png",
+      "description": "Noise-isolating wireless earbuds with long battery life."
+    },
+    {
+      "id": "p8",
+      "name": "Smartphone Tripod",
+      "price": 14.99,
+      "category": "Electronics",
+      "image": "/assets/products/tripod.png",
+      "description": "Adjustable tripod stand perfect for photo and video shooting."
+    },
+    {
+      "id": "p9",
+      "name": "Gaming Keyboard",
+      "price": 69.99,
+      "category": "Electronics",
+      "image": "/assets/products/keyboard.png",
+      "description": "Mechanical RGB keyboard with tactile switches."
+    },
+    {
+      "id": "p10",
+      "name": "Ceramic Coffee Mug",
+      "price": 9.99,
+      "category": "Home & Kitchen",
+      "image": "/assets/products/mug.png",
+      "description": "Durable ceramic mug with matte finish and stylish design."
+    },
+    {
+      "id": "p11",
+      "name": "Stainless Steel Water Bottle",
+      "price": 12.99,
+      "category": "Home & Kitchen",
+      "image": "/assets/products/water-bottle.png",
+      "description": "Insulated water bottle keeps drinks cold for up to 12 hours."
+    },
+    {
+      "id": "p12",
+      "name": "Cotton Bed Sheet Set",
+      "price": 34.99,
+      "category": "Home & Kitchen",
+      "image": "/assets/products/bedsheet.png",
+      "description": "Premium cotton bed sheet set with soft and breathable fabric."
+    }
+  ]
+  
