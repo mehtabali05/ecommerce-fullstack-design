@@ -1,26 +1,30 @@
 import React from 'react';
 import { Search, FileText, Plane, Shield } from 'lucide-react';
+import service1 from '../assets/Image/services/service1.png'
+import service2 from '../assets/Image/services/service2.png'
+import service3 from '../assets/Image/services/service3.png'
+import service4 from '../assets/Image/services/service4.png'
 
 const services = [
   {
     title: 'Source from Industry Hubs',
     icon: Search,
-    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop'
+    image: service1
   },
   {
     title: 'Customize Your Products',
     icon: FileText,
-    image: 'https://images.unsplash.com/photo-1525909002-1b05e0c869d8?w=400&h=300&fit=crop'
+    image: service2
   },
   {
     title: 'Fast, reliable shipping by ocean or air',
     icon: Plane,
-    image: 'https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&h=300&fit=crop'
+    image: service3
   },
   {
     title: 'Product monitoring and inspection',
     icon: Shield,
-    image: 'https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=400&h=300&fit=crop'
+    image: service4 
   }
 ];
 

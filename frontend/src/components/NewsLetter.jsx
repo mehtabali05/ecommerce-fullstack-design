@@ -1,5 +1,5 @@
 import React from 'react';
-
+// import { MdOutlineMailOutline } from "react-icons/md";
 function Newsletter() {
   return (
     <div className="bg-gray-100 py-12">
@@ -12,6 +12,7 @@ function Newsletter() {
         </p>
         
         <div className="flex max-w-md mx-auto gap-2">
+        {/* <MdOutlineMailOutline /> */}
           <input
             type="email"
             placeholder="Email"

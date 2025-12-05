@@ -1,49 +1,50 @@
 import React from 'react';
 import { Facebook, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react';
+import logo from '../assets/Brand/logo-colored.svg'
+import { FaFacebookF } from "react-icons/fa";
+import { FiTwitter } from "react-icons/fi";
+import { FaLinkedinIn } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa6";
+import { AiOutlineYoutube } from "react-icons/ai";
 
 function Footer() {
   return (
-    <footer className="bg-white border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-8">
+    <footer className="border-t border-gray-200 mb-3">
+      <div className="bg-white max-w-7xl mx-auto px-4 pt-12">
+        <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-3 mb-8">
 
           {/* Bottom section */}
-        <div className="border-t mr-20 border-gray-200 pt-8 flex flex-col md:flex-row items-center justify-between">
+        
           {/* Logo and description */}
           <div className="flex items-start gap-3 mb-4 md:mb-0">
-            <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold">TB</span>
-            </div>
             <div className="max-w-xs">
-              <h4 className="font-bold text-gray-900 mb-1">TradeBridge</h4>
-              <p className="text-xs text-gray-600">
-                Connecting global suppliers and buyers for seamless international trade
-              </p>
+              <img src={logo} alt="" />
+              <p className="text-xs text-gray-600"> Best information about the company gies here but now lorem ipsum is</p>
               <div className="flex gap-2 mt-3">
                 <a href="#" className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
-                  <Facebook className="w-4 h-4 text-gray-600" />
+                <FaFacebookF />
                 </a>
                 <a href="#" className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
-                  <Twitter className="w-4 h-4 text-gray-600" />
+                <FiTwitter />
                 </a>
                 <a href="#" className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
-                  <Linkedin className="w-4 h-4 text-gray-600" />
+                <FaLinkedinIn />
                 </a>
                 <a href="#" className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
-                  <Instagram className="w-4 h-4 text-gray-600" />
+                <FaInstagram />
                 </a>
                 <a href="#" className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
-                  <Youtube className="w-4 h-4 text-gray-600" />
+                  <AiOutlineYoutube className="w-5 h-5 text-gray-900" />
                 </a>
               </div>
             </div>
           </div>
-        </div>
+       
 
           {/* About */}
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">About</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <ul className="space-y-2 text-gray-600">
               <li><a href="#" className="hover:text-blue-500">About Us</a></li>
               <li><a href="#" className="hover:text-blue-500">Find store</a></li>
               <li><a href="#" className="hover:text-blue-500">Categories</a></li>
@@ -54,7 +55,7 @@ function Footer() {
           {/* Partnership */}
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Partnership</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <ul className="space-y-2 text-gray-600">
               <li><a href="#" className="hover:text-blue-500">About Us</a></li>
               <li><a href="#" className="hover:text-blue-500">Find store</a></li>
               <li><a href="#" className="hover:text-blue-500">Categories</a></li>
@@ -65,7 +66,7 @@ function Footer() {
           {/* Information */}
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Information</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <ul className="space-y-2 text-gray-600">
               <li><a href="#" className="hover:text-blue-500">Help Center</a></li>
               <li><a href="#" className="hover:text-blue-500">Money Refund</a></li>
               <li><a href="#" className="hover:text-blue-500">Shipping</a></li>
@@ -76,7 +77,7 @@ function Footer() {
           {/* For users */}
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">For users</h3>
-            <ul className="space-y-2 text-sm text-gray-600">
+            <ul className="space-y-2 text-gray-600">
               <li><a href="#" className="hover:text-blue-500">Login</a></li>
               <li><a href="#" className="hover:text-blue-500">Register</a></li>
               <li><a href="#" className="hover:text-blue-500">Settings</a></li>
@@ -106,16 +107,20 @@ function Footer() {
           </div>
         </div>
 
-        {/* Copyright */}
-        <p className="text-sm text-gray-500">© 2025 TradeBridge.</p>
-
-        {/* Language selector */}
-        <div className="flex items-center gap-2">
-          <img src="https://flagcdn.com/w20/us.png" alt="English" className="w-5 h-4" />
-          <span className="text-sm text-gray-600">English</span>
+        
+      </div>
+      {/* Copyright */}
+      <div className='bg-gray-100'>
+        <div className='flex justify-between max-w-7xl p-4 mx-auto'>
+          <p className="text-sm text-gray-500">© 2025 TradeBridge.</p>
+          {/* Language selector */}
+          <div className="flex items-center gap-2">
+            <img src="https://flagcdn.com/w20/us.png" alt="English" className="w-5 h-4" />
+            <span className="text-sm text-gray-600">English</span>
+          </div>
+        </div>
         </div>
 
-      </div>
     </footer>
   );
 }

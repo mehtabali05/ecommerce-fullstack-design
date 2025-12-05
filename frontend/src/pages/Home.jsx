@@ -8,7 +8,7 @@ import ServicesSection from '../components/SevicesSection';
 import SuppliersSection from '../components/SuppliersSection';
 import Newsletter from '../components/NewsLetter';
 
-import { categoryElectronic,categoryHomeAndOutdoor } from '../assets/asset';
+import { categoryElectronic,categoryHomeAndOutdoor,home,smart } from '../assets/asset';
 
 function Home() {
   // const homeProducts = [
@@ -39,13 +39,14 @@ function Home() {
       <DealsSection />
       <CategorySection
         title="Home and outdoor"
-        bgColor="bg-gradient-to-br from-amber-50 to-orange-100"
-        bgImage="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=300&h=300&fit=crop"
+        bgColor="bg-gradient-to-br from-amber-0 to-orange-100"
+        bgImage={home}
         products={categoryHomeAndOutdoor}
       />
       <CategorySection
         title="Consumer electronics and gadgets"
         bgColor="bg-gradient-to-br from-blue-50 to-cyan-100"
+        bgImage={smart}
         products={categoryElectronic}
       />
       <QuoteSection />

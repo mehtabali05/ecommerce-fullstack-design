@@ -30,118 +30,169 @@ import interior7 from './Image/interior/7.png'
 import interior8 from './Image/interior/8.png'
 import interior9 from './Image/interior/9.png'
 import interior10 from './Image/interior/10.png'
+import smart from './Brand/smart.png'
+import home from './Brand/home.png'
+import quoteImage from './Brand/quoteImage.png'
 
 const dealsAndOffers = [
     {
         image: tech8,
         category: "Smart watches",
-        discount:25
+        discount: 25
     },
     {
         image: tech7,
         category: "Laptops",
-        discount:15
+        discount: 15
     },
     {
         image: tech6,
         category: "GoPro cameras",
-        discount:40
+        discount: 40
     },
     {
         image: tech5,
         category: "headphones",
-        discount:25
+        discount: 25
     },
     {
         image: tech3,
         category: "Canon cameras",
-        discount:25
+        discount: 25
     }
 ];
 
-const categoryHomeAndOutdoor =[
+const categoryHomeAndOutdoor = [
     {
         name: "Soft chairs",
-        image:interior2,
-        description:"USD 19"
+        image: interior2,
+        description: "USD 19"
     },
     {
         name: "Sofa & chair",
-        image:interior1,
-        description:"USD 19"
-    },,
+        image: interior1,
+        description: "USD 19"
+    },
     {
         name: "Kitchen dishes",
-        image:interior3,
-        description:"USD 19"
+        image: interior3,
+        description: "USD 19"
     },
-    ,{
-        name: "Smart watches",
-        image:interior1,
-        description:"USD 19"
-    },
-    ,{
-        name: "Kitchen mixer",
-        image:interior9,
-        description:"USD 100"
-    },
-    ,{
-        name: "Blenders",
-        image:interior1,
-        description:"USD 39"
-    },
-    ,{
-        name: "Home appliance",
-        image:interior10,
-        description:"USD 19"
-    },
-    ,{
-        name: "Coffee maker",
-        image:interior8,
-        description:"USD 19"
-    },
-]
-
-const categoryElectronic =[
     {
         name: "Smart watches",
-        image:tech8,
-        description:"USD 19"
+        image: tech8,
+        description: "USD 19"
+    },
+    {
+        name: "Kitchen mixer",
+        image: interior9,
+        description: "USD 100"
+    },
+    {
+        name: "Blenders",
+        image: interior4,
+        description: "USD 39"
+    },
+    {
+        name: "Home appliance",
+        image: interior10,
+        description: "USD 19"
+    },
+    {
+        name: "Coffee maker",
+        image: interior8,
+        description: "USD 19"
+    },
+];
+
+const categoryElectronic = [
+    {
+        name: "Smart watches",
+        image: tech8,
+        description: "USD 19"
     },
     {
         name: "Cameras",
-        image:tech6,
-        description:"USD 89"
-    },,
+        image: tech6,
+        description: "USD 89"
+    },
     {
         name: "Headphones",
-        image:tech9,
-        description:"USD 10"
+        image: tech9,
+        description: "USD 10"
     },
-    ,{
-        name: "Smart watches",
-        image:tech8,
-        description:"USD 90"
+    {
+        name: "Tablets",
+        image: tech2,
+        description: "USD 90"
     },
-    ,{
+    {
         name: "Gaming set",
-        image:tech5,
-        description:"USD 35"
+        image: tech5,
+        description: "USD 35"
     },
-    ,{
+    {
         name: "Laptops & PC",
-        image:tech7,
-        description:"USD 39"
+        image: tech7,
+        description: "USD 39"
     },
-    ,{
+    {
         name: "Smartphones",
-        image:tech1,
-        description:"USD 19"
+        image: tech1,
+        description: "USD 19"
     },
-    ,{
+    {
         name: "Electric cattle",
-        image:tech10,
-        description:"USD 240"
+        image: tech10,
+        description: "USD 240"
     },
-]
-export {DE, AE, AU,CN, GB, IT, RU, US, DK,FR,dealsAndOffers,categoryHomeAndOutdoor,categoryElectronic};
+];
+
+// Note: The commented-out recommendedItems array has been left in place 
+// but is now syntactically correct (non-standard characters replaced with spaces) 
+// in case you uncomment it later.
+
+const recommendedItems = [
+    {
+        price: 10.30,
+        description: "T-shirts with multiple colors, for men"
+    },
+    {
+        price: 10.30,
+        description: "Jeans shorts for men blue color"
+    },
+    {
+        price: 12.50,
+        description: "Brown winter coat medium size"
+    },
+    {
+        price: 34.00,
+        description: "Jeans bag for travel for men",
+    },
+    {
+        price: 80.89,
+        description: "Jeans bag for travel for men"
+    },
+    {
+        price: 99.00,
+        description: "Leather wallet"
+    },
+    {
+        price: 9.99,
+        description: "Canon camera black, 100x zoom"
+    },
+    {
+        price: 8.99,
+        description: "Headset for gaming with mic"
+    },
+    {
+        price: 10.30,
+        description: "Smartwatch silver color modern"
+    },
+    {
+        price: 10.30,
+        description: "Blue wallet for men leather metarfial"
+    }
+];
+
+export {DE, AE, AU,CN, GB, IT, RU, US, DK,FR,dealsAndOffers,categoryHomeAndOutdoor,categoryElectronic,smart,home,quoteImage};
