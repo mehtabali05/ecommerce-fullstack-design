@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Trash2, Plus, Minus } from 'lucide-react';
 import { Link } from 'react-router';
-import Breadcrumb from '../components/Breadcrumb';
+import Header from '@/react-app/components/Header';
+import Footer from '@/react-app/components/Footer';
+import Breadcrumb from '@/react-app/components/Breadcrumb';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([
@@ -57,6 +59,7 @@ export default function Cart() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
+      <Header />
 
       <main className="flex-1 max-w-[1400px] mx-auto px-4 py-6 w-full">
         <Breadcrumb
@@ -230,6 +233,7 @@ export default function Cart() {
         </div>
       </main>
 
+      <Footer />
     </div>
   );
 }

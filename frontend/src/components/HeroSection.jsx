@@ -1,12 +1,15 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
+import avatar from '../assets/Brand/Avatar.png'
+import banner from '../assets/Brand/Banner.png'
 
 function HeroSection() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      <div className="grid grid-cols-12 gap-4">
+      <div className="grid grid-cols-12 gap-4 border border-gray-200 bg-white p-4">
         {/* Sidebar categories */}
-        <div className="col-span-12 md:col-span-3 bg-white rounded-lg p-4 border border-gray-200">
-          <nav className="space-y-3">
+        <div className="col-span-12 md:col-span-3 rounded-lg ">
+          <nav className="space-y-1">
             {[
               'Automobiles',
               'Clothes and wear',
@@ -18,13 +21,13 @@ function HeroSection() {
               'Machinery tools',
               'More category'
             ].map((category) => (
-              <a
+              <NavLink
                 key={category}
                 href="#"
-                className="block text-gray-700 hover:text-blue-500 text-sm"
+                className="block text-gray-700 hover:bg-blue-100 p-2"
               >
                 {category}
-              </a>
+              </NavLink>
             ))}
           </nav>
         </div>
@@ -33,7 +36,7 @@ function HeroSection() {
         <div className="col-span-12 md:col-span-6">
           <div className="bg-gradient-to-br from-cyan-300 to-teal-200 rounded-lg p-8 h-full relative overflow-hidden">
             <div className="relative z-10">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              <h1 className="text-3xl text-gray-900 mb-2">
                 Latest trending
               </h1>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -44,7 +47,7 @@ function HeroSection() {
               </button>
             </div>
             <img
-              src="https://mocha-cdn.com/019ae4e3-7b03-7b84-a077-ebbf878205c3/web-main.jpg"
+              src={banner}
               alt="Electronics"
               className="absolute right-0 top-0 h-full object-cover opacity-80"
             />
@@ -57,31 +60,32 @@ function HeroSection() {
           <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
             <div className="flex items-start gap-3 mb-3">
               <div className="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                <span className="text-gray-600 text-sm">👤</span>
+                {/* <span className="text-gray-600 text-sm">👤</span> */}
+                <img src={avatar} alt="" />
               </div>
               <div>
-                <p className="text-sm text-gray-700">Hi, user</p>
-                <p className="text-xs text-gray-500">let's get started</p>
+                <p className="text-gray-900">Hi, user</p>
+                <p className="text-gray-900">let's get started</p>
               </div>
             </div>
             <button className="w-full py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors mb-2">
               Join now
             </button>
-            <button className="w-full py-2 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-300">
+            <button className="w-full py-2 bg-white text-blue-700 rounded-lg hover:bg-gray-50 transition-colors border border-gray-300">
               Log in
             </button>
           </div>
 
           {/* Promo box */}
           <div className="bg-gradient-to-br from-orange-400 to-orange-500 rounded-lg p-4 text-white">
-            <p className="text-sm mb-1">Get US $10 off</p>
-            <p className="text-xs opacity-90">with a new supplier</p>
+            <p className="mb-1">Get US $10 off</p>
+            <p className="opacity-90">with a new supplier</p>
           </div>
 
           {/* Quote box */}
           <div className="bg-gradient-to-br from-cyan-400 to-teal-500 rounded-lg p-4 text-white">
-            <p className="text-sm mb-1">Send quotes with</p>
-            <p className="text-xs opacity-90">supplier preferences</p>
+            <p className="mb-1">Send quotes with</p>
+            <p className="opacity-90">supplier preferences</p>
           </div>
         </div>
       </div>
