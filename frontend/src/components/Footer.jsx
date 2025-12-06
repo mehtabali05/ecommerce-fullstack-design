@@ -1,11 +1,11 @@
 import React from 'react';
-import { Facebook, Twitter, Linkedin, Instagram, Youtube } from 'lucide-react';
 import logo from '../assets/Brand/logo-colored.svg'
 import { FaFacebookF } from "react-icons/fa";
 import { FiTwitter } from "react-icons/fi";
 import { FaLinkedinIn } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa6";
 import { AiOutlineYoutube } from "react-icons/ai";
+import { Link } from 'react-router';
 
 function Footer() {
   return (
@@ -19,7 +19,7 @@ function Footer() {
           <div className="flex items-start gap-3 mb-4 md:mb-0">
             <div className="max-w-xs">
               <img src={logo} alt="" />
-              <p className="text-xs text-gray-600"> Best information about the company gies here but now lorem ipsum is</p>
+              <p className="text-gray-600 mt-3 mb-3"> Best information about the company gies here but now lorem ipsum is</p>
               <div className="flex gap-2 mt-3">
                 <a href="#" className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center hover:bg-gray-300">
                 <FaFacebookF />
@@ -45,10 +45,10 @@ function Footer() {
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">About</h3>
             <ul className="space-y-2 text-gray-600">
-              <li><a href="#" className="hover:text-blue-500">About Us</a></li>
-              <li><a href="#" className="hover:text-blue-500">Find store</a></li>
-              <li><a href="#" className="hover:text-blue-500">Categories</a></li>
-              <li><a href="#" className="hover:text-blue-500">Blogs</a></li>
+              <li><Link to="/about-us" className="hover:text-blue-500">About Us</Link></li>
+              <li><Link to="/find-store" className="hover:text-blue-500">Find store</Link></li>
+              <li><Link to="/categories" className="hover:text-blue-500">Categories</Link></li>
+              <li><Link to="/blogs" className="hover:text-blue-500">Blogs</Link></li>
             </ul>
           </div>
 
@@ -56,10 +56,10 @@ function Footer() {
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Partnership</h3>
             <ul className="space-y-2 text-gray-600">
-              <li><a href="#" className="hover:text-blue-500">About Us</a></li>
-              <li><a href="#" className="hover:text-blue-500">Find store</a></li>
-              <li><a href="#" className="hover:text-blue-500">Categories</a></li>
-              <li><a href="#" className="hover:text-blue-500">Blogs</a></li>
+              <li><Link to="/about-us" className="hover:text-blue-500">About Us</Link></li>
+              <li><Link to="/find-store" className="hover:text-blue-500">Find store</Link></li>
+              <li><Link to="/categories" className="hover:text-blue-500">Categories</Link></li>
+              <li><Link to="/blogs" className="hover:text-blue-500">Blogs</Link></li>
             </ul>
           </div>
 
@@ -67,10 +67,10 @@ function Footer() {
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Information</h3>
             <ul className="space-y-2 text-gray-600">
-              <li><a href="#" className="hover:text-blue-500">Help Center</a></li>
-              <li><a href="#" className="hover:text-blue-500">Money Refund</a></li>
-              <li><a href="#" className="hover:text-blue-500">Shipping</a></li>
-              <li><a href="#" className="hover:text-blue-500">Contact us</a></li>
+              <li><Link to="/help-center" className="hover:text-blue-500">Help Center</Link></li>
+              <li><Link to="/money-refund" className="hover:text-blue-500">Money Refund</Link></li>
+              <li><Link to="/shipping" className="hover:text-blue-500">Shipping</Link></li>
+              <li><Link to="/contact-us" className="hover:text-blue-500">Contact us</Link></li>
             </ul>
           </div>
 
@@ -119,7 +119,7 @@ function Footer() {
             <span className="text-sm text-gray-600">English</span>
           </div>
         </div>
-        </div>
+      </div>
 
     </footer>
   );

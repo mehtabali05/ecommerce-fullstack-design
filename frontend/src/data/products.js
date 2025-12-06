@@ -1,3 +1,13 @@
+import tech1 from '../assets/Image/tech/1.png'
+import tech2 from '../assets/Image/tech/2.png'
+import tech3 from '../assets/Image/tech/3.png'
+import tech4 from '../assets/Image/tech/4.png'
+import tech5 from '../assets/Image/tech/5.png'
+import tech6 from '../assets/Image/tech/6.png'
+import tech7 from '../assets/Image/tech/7.png'
+import tech8 from '../assets/Image/tech/8.png'
+import tech9 from '../assets/Image/tech/9.png'
+
 export const products = [
     {
       id: "1",
@@ -6,7 +16,7 @@ export const products = [
       originalPrice: 1128.00,
       rating: 7.5,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1606921231106-f1083329a65c?w=400",
+      image: tech1,
       brand: "Samsung",
       category: "Mobile accessory",
       features: ["Metallic", "4 star"],
@@ -19,7 +29,7 @@ export const products = [
       originalPrice: 1128.00,
       rating: 5.0,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=400",
+      image: tech2,
       brand: "Apple",
       category: "Mobile accessory",
       features: ["4 star"],
@@ -31,7 +41,7 @@ export const products = [
       price: 99.50,
       rating: 7.5,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400",
+      image: tech3,
       brand: "Poco",
       category: "Mobile accessory",
       features: [],
@@ -44,7 +54,7 @@ export const products = [
       originalPrice: 1128.00,
       rating: 7.5,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=400",
+      image: tech4,
       brand: "Poco",
       category: "Mobile accessory",
       features: ["Metallic"],
@@ -57,7 +67,7 @@ export const products = [
       originalPrice: 1128.00,
       rating: 7.5,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1606921231106-f1083329a65c?w=400",
+      image: tech5,
       brand: "Samsung",
       category: "Electronics",
       features: [],
@@ -70,7 +80,7 @@ export const products = [
       originalPrice: 1128.00,
       rating: 7.5,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=400",
+      image: tech6,
       brand: "Apple",
       category: "Mobile accessory",
       features: ["3 star"],
@@ -83,7 +93,7 @@ export const products = [
       originalPrice: 1128.00,
       rating: 7.5,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
+      image: tech7,
       brand: "Samsung",
       category: "Electronics",
       features: [],
@@ -96,7 +106,7 @@ export const products = [
       originalPrice: 1128.00,
       rating: 7.5,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
+      image: tech8,
       brand: "Poco",
       category: "Modern tech",
       features: [],
@@ -109,7 +119,7 @@ export const products = [
       originalPrice: 1128.00,
       rating: 7.5,
       reviews: 154,
-      image: "https://images.unsplash.com/photo-1606921231106-f1083329a65c?w=400",
+      image: tech9,
       brand: "Samsung",
       category: "Mobile accessory",
       features: [],

@@ -29,11 +29,11 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
     <div className="w-64 flex-shrink-0">
       {/* Category */}
       <div className="mb-6">
-        <button className="flex items-center justify-between w-full mb-3 font-semibold">
+        <button className="flex items-center justify-between w-full mb-3 mt-2 text-xl font-semibold">
           <span>Category</span>
           <ChevronDown className="w-4 h-4" />
         </button>
-        <ul className="space-y-2 text-sm">
+        <ul className="space-y-2">
           {categories.map((category) => (
             <li key={category}>
               <button className="text-gray-700 hover:text-blue-500">{category}</button>
@@ -47,11 +47,11 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
 
       {/* Brands */}
       <div className="mb-6">
-        <button className="flex items-center justify-between w-full mb-3 font-semibold">
+        <button className="flex items-center justify-between w-full mb-3 mt-2 text-xl font-semibold">
           <span>Brands</span>
           <ChevronDown className="w-4 h-4" />
         </button>
-        <ul className="space-y-2 text-sm">
+        <ul className="space-y-2">
           {brands.slice(0, showAllBrands ? brands.length : 4).map((brand) => (
             <li key={brand} className="flex items-center gap-2">
               <input
@@ -79,11 +79,11 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
 
       {/* Features */}
       <div className="mb-6">
-        <button className="flex items-center justify-between w-full mb-3 font-semibold">
+        <button className="flex items-center justify-between w-full mb-3 mt-2 text-xl font-semibold">
           <span>Features</span>
           <ChevronDown className="w-4 h-4" />
         </button>
-        <ul className="space-y-2 text-sm">
+        <ul className="space-y-2">
           {features.slice(0, showAllFeatures ? features.length : 4).map((feature) => (
             <li key={feature} className="flex items-center gap-2">
               <input

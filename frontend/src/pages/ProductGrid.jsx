@@ -2,17 +2,11 @@ import { useState } from 'react';
 import { Grid, List } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
 import Sidebar from '../components/Sidebar';
-import { products } from '../data/products';
 import ProductCard from '../components/ProductCard';
 import ProductListView from '../components/ProductListView';
-// import Header from '@/react-app/components/Header';
-// import Footer from '@/react-app/components/Footer';
-// import Breadcrumb from '@/react-app/components/Breadcrumb';
-// import Sidebar from '@/react-app/components/Sidebar';
-// import ProductCard from '@/react-app/components/ProductCard';
-// import ProductListView from '@/react-app/components/ProductListView';
-// import { products } from '@/react-app/data/products';
-
+import { products } from '../data/products';
+import Newsletter from '../components/NewsLetter';
+ 
 export default function ProductGrid() {
   const [selectedBrands, setSelectedBrands] = useState(['Samsung', 'Apple', 'Poco']);
   const [selectedFeatures, setSelectedFeatures] = useState(['Metallic']);
@@ -39,7 +33,7 @@ export default function ProductGrid() {
     <div className="min-h-screen flex flex-col bg-gray-50">
 
       <main className="flex-1 max-w-[1400px] mx-auto px-4 py-6 w-full">
-        <Breadcrumb
+        <Breadcrumb 
           items={[
             { label: 'Home', href: '/' },
             { label: 'Clothings', href: '/clothings' },
@@ -58,7 +52,7 @@ export default function ProductGrid() {
 
           <div className="flex-1">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex bg-white px-5 py-3 border border-gray-100 items-center justify-between mb-6">
               <h1 className="text-xl font-semibold">
                 12,911 items in <span className="font-bold">Mobile accessory</span>
               </h1>
@@ -129,25 +123,29 @@ export default function ProductGrid() {
             )}
 
             {/* Pagination */}
-            <div className="flex items-center justify-center gap-2">
-              <select className="px-3 py-2 border border-gray-300 rounded text-sm bg-white">
-                <option>Show 10</option>
-                <option>Show 20</option>
-                <option>Show 50</option>
-              </select>
-              <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">
-                &lt;
-              </button>
-              <button className="px-3 py-2 bg-blue-500 text-white rounded">1</button>
-              <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">2</button>
-              <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">3</button>
-              <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">
-                &gt;
-              </button>
-            </div>
+           <div className='flex justify-end pr-8 mb-10'>
+              <div className="flex items-center justify-center gap-2">
+                <select className="px-3 py-2 border border-gray-300 rounded bg-white">
+                  <option>Show 10</option>
+                  <option>Show 20</option>
+                  <option>Show 50</option>
+                </select>
+                <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">
+                  &lt;
+                </button>
+                <button className="px-3 py-2 bg-blue-500 text-white rounded">1</button>
+                <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">2</button>
+                <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">3</button>
+                <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">
+                  &gt;
+                </button>
+              </div>
+           </div>
+           
           </div>
         </div>
       </main>
+          <Newsletter />
     </div>
   );
 }

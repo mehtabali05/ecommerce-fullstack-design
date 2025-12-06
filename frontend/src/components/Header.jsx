@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, User, Heart, ShoppingCart, Menu, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import logo from '../assets/Brand/logo-colored.svg'
 import { FaUser,FaHeart } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";

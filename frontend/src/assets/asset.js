@@ -148,9 +148,6 @@ const categoryElectronic = [
     },
 ];
 
-// Note: The commented-out recommendedItems array has been left in place 
-// but is now syntactically correct (non-standard characters replaced with spaces) 
-// in case you uncomment it later.
 
 const recommendedItems = [
     {
@@ -195,4 +192,53 @@ const recommendedItems = [
     }
 ];
 
-export {DE, AE, AU,CN, GB, IT, RU, US, DK,FR,dealsAndOffers,categoryHomeAndOutdoor,categoryElectronic,smart,home,quoteImage};
+const allProducts = [
+    {
+        image:tech1,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+    {
+        image:tech2,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+    {
+        image:tech3,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+    {
+        image:tech4,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+    {
+        image:tech5,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+    {
+        image:tech6,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+    {
+        image:tech7,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+    {
+        image:tech8,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+    {
+        image:tech9,
+        price:99.50,
+        description: "HERO6 4K Action Camera - Black"
+    },
+
+];
+
+export {DE, AE, AU,CN, GB, IT, RU, US, DK,FR,dealsAndOffers,categoryHomeAndOutdoor,categoryElectronic,smart,home,quoteImage,allProducts};

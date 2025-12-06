@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Trash2, Plus, Minus } from 'lucide-react';
 import { Link } from 'react-router';
-import Breadcrumb from '../components/Breadcrumb';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([
@@ -59,14 +58,8 @@ export default function Cart() {
     <div className="min-h-screen flex flex-col bg-gray-50">
 
       <main className="flex-1 max-w-[1400px] mx-auto px-4 py-6 w-full">
-        <Breadcrumb
-          items={[
-            { label: 'Home', href: '/' },
-            { label: 'Shopping Cart' },
-          ]}
-        />
 
-        <h1 className="text-2xl font-semibold mb-6">Shopping Cart ({cartItems.length} items)</h1>
+        <h1 className="text-2xl font-semibold mb-6">My Cart ({cartItems.length})</h1>
 
         <div className="grid grid-cols-12 gap-6">
           {/* Cart Items */}
@@ -78,40 +71,29 @@ export default function Cart() {
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-24 h-24 object-cover rounded border border-gray-200"
+                      className="w-24 h-24 p-3 bg-gray-100 object-cover rounded border border-gray-200"
                     />
                     <div className="flex-1">
                       <h3 className="font-medium mb-1">{item.name}</h3>
-                      <p className="text-sm text-gray-600 mb-2">{item.seller}</p>
-                      <div className="flex gap-4 text-sm text-gray-600">
+                      <div className="flex gap-4 text-gray-500">
                         <span>Size: {item.size}</span>
                         <span>Color: {item.color}</span>
+                        <span>Material: Plastic</span>
+                      </div>
+                      <p className="text-gray-500 mb-2">{item.seller}</p>
+
+                      <div>
+                        <button className='text-red-500 border border-gray-300 px-2 py-1 rounded-md mr-3'>Remove</button>
+                        <button className='text-blue-500 border border-gray-300 px-2 py-1 rounded-md'>Save to later</button>
                       </div>
                     </div>
                     <div className="flex flex-col items-end justify-between">
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="text-gray-400 hover:text-red-500"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
                       <div className="text-right">
                         <p className="text-lg font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
-                        <div className="flex items-center gap-2 mt-2">
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="w-8 h-8 border border-gray-300 rounded hover:bg-gray-50 flex items-center justify-center"
-                          >
-                            <Minus className="w-4 h-4" />
-                          </button>
-                          <span className="w-12 text-center">{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-8 h-8 border border-gray-300 rounded hover:bg-gray-50 flex items-center justify-center"
-                          >
-                            <Plus className="w-4 h-4" />
-                          </button>
-                        </div>
+                        <select name="" id="" className='border border-gray-300 px-3 mt-2 py-2'>
+                          <option value=""> Qty : {item.quantity} </option>
+                          <option value=""> Qty: {item.quantity} </option>   
+                        </select>
                       </div>
                     </div>
                   </div>

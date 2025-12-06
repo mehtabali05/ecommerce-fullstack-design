@@ -1,14 +1,3 @@
-// import Header from '@/react-app/components/Header';
-// import Breadcrumb from '@/react-app/components/Breadcrumb';
-// import ProductGallery from '@/react-app/components/ProductGallery';
-// import ProductInfo from '@/react-app/components/ProductInfo';
-// import SupplierCard from '@/react-app/components/SupplierCard';
-// import ProductTabs from '@/react-app/components/ProductTabs';
-// import RecommendedProducts from '@/react-app/components/RecommendedProducts';
-// import RelatedProducts from '@/react-app/components/RelatedProducts';
-// import PromoBanner from '@/react-app/components/PromoBanner';
-// import Footer from '@/react-app/components/Footer';
-
 import Breadcrumb from "../components/Breadcrumb";
 import ProductGallery from "../components/Productgallery";
 import ProductInfo from "../components/ProductInfo";
@@ -17,7 +6,7 @@ import PromoBanner from "../components/PromoBanner";
 import RecommendedProducts from "../components/RecommendeProducts";
 import RelatedProducts from "../components/RelatedProducts";
 import SupplierCard from "../components/SupplierCard";
-
+ 
 export default function ProductDetail() {
   return (
     <div className="min-h-screen bg-gray-50">
