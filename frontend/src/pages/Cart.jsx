@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { Trash2, Plus, Minus } from 'lucide-react';
-import { Link } from 'react-router';
+import { MdLock } from "react-icons/md";
+import { MdMessage } from "react-icons/md";
+import { GrDeliver } from "react-icons/gr";
+import { FaArrowLeft } from "react-icons/fa";
+import { BsCart3 } from "react-icons/bs";
+
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([
@@ -57,14 +61,14 @@ export default function Cart() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
 
-      <main className="flex-1 max-w-[1400px] mx-auto px-4 py-6 w-full">
+      <main className="flex-1 max-w-7xl mx-auto px-4 py-6 w-full">
 
         <h1 className="text-2xl font-semibold mb-6">My Cart ({cartItems.length})</h1>
 
         <div className="grid grid-cols-12 gap-6">
           {/* Cart Items */}
           <div className="col-span-8">
-            <div className="bg-white rounded-lg border border-gray-200">
+            <div className="bg-white rounded-lg p-2 border border-gray-200">
               {cartItems.map((item, idx) => (
                 <div key={item.id} className={`p-6 ${idx !== cartItems.length - 1 ? 'border-b border-gray-200' : ''}`}>
                   <div className="flex gap-4">
@@ -84,13 +88,13 @@ export default function Cart() {
 
                       <div>
                         <button className='text-red-500 border border-gray-300 px-2 py-1 rounded-md mr-3'>Remove</button>
-                        <button className='text-blue-500 border border-gray-300 px-2 py-1 rounded-md'>Save to later</button>
+                        <button className='text-blue-500 border border-gray-300 px-2 py-1 rounded-md'>Save for later</button>
                       </div>
                     </div>
                     <div className="flex flex-col items-end justify-between">
                       <div className="text-right">
                         <p className="text-lg font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
-                        <select name="" id="" className='border border-gray-300 px-3 mt-2 py-2'>
+                        <select name="" id="" className='border border-gray-300 rounded-md px-3 mt-2 py-2'>
                           <option value=""> Qty : {item.quantity} </option>
                           <option value=""> Qty: {item.quantity} </option>   
                         </select>
@@ -99,41 +103,165 @@ export default function Cart() {
                   </div>
                 </div>
               ))}
+            <div className='flex justify-between p-4 border-t border-gray-200'>
+              <button className='flex items-center gap-3 bg-blue-500 text-white cursor-pointer p-2 rounded-lg'><FaArrowLeft /> Back to shop</button>
+              <button className='text-blue-500 cursor-pointer p-2 rounded-lg border border-gray-300'>Remove all</button>
+            </div>
+            </div>
+
+
+              {/* Services Section */}
+            <div className='flex gap-8 mt-8'>
+              <div className='flex items-center gap-5'>
+                <div className='bg-gray-300 p-4 rounded-full'>
+                <MdLock className='text-xl text-gray-700' />
+                </div>
+                <div className='flex flex-col'>
+                  <span>Secure payment</span>
+                  <span className='text-gray-500'>Have you ever finally just</span>
+                </div>
+              </div>  
+              <div className='flex items-center gap-5'>
+                <div className='bg-gray-300 p-4 rounded-full'>
+                <MdMessage className='text-xl text-gray-700' />
+                </div>
+                <div className='flex flex-col'>
+                  <span>Customer Support</span>
+                  <span className='text-gray-500'>Have you ever finally just</span>
+                </div>
+              </div>  
+              <div className='flex items-center gap-5'>
+                <div className='bg-gray-300 p-4 rounded-full'>
+                <GrDeliver className='text-xl text-gray-700' />
+                </div>
+                <div className='flex flex-col'>
+                  <span>Free Delivery</span>
+                  <span className='text-gray-500'>Have you ever finally just</span>
+                </div>
+              </div>
             </div>
 
             {/* Saved for Later */}
-            <div className="mt-6">
-              <h2 className="text-lg font-semibold mb-4">Saved for later</h2>
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <div className="flex gap-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
-                    alt="Saved item"
-                    className="w-24 h-24 object-cover rounded border border-gray-200"
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-medium mb-1">T-shirts with multiple colors, for men</h3>
-                    <p className="text-sm text-gray-600 mb-2">Seller: ABC Electronics</p>
+            <div className="mt-6 bg-white rounded-lg border border-gray-200 p-6">
+              <h2 className="text-xl font-semibold mb-4">Saved for later</h2>
+              <div className="flex gap-3">
+                <div className="flex flex-col gap-4 w-50">
+                  <div className='flex items-center justify-center bg-gray-300 '>
+                    <img
+                      src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
+                      alt="Saved item"
+                      className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-xl font-semibold">$10.30</p>
+                    <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
+                    
                     <div className="flex items-center gap-4">
-                      <button className="text-sm text-blue-500 hover:text-blue-600 font-medium">
+                      <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
+                        <BsCart3 className='w-6 h-6' />
                         Move to cart
-                      </button>
-                      <button className="text-sm text-gray-500 hover:text-red-500">
-                        Remove
                       </button>
                     </div>
                   </div>
-                  <div className="text-lg font-semibold">$10.30</div>
+                  
                 </div>
+                <div className="flex flex-col gap-4 w-50">
+                  <div className='flex items-center justify-center bg-gray-300 '>
+                    <img
+                      src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
+                      alt="Saved item"
+                      className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-xl font-semibold">$10.30</p>
+                    <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
+                    
+                    <div className="flex items-center gap-4">
+                      <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
+                        <BsCart3 className='w-6 h-6' />
+                        Move to cart
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div className="flex flex-col gap-4 w-50">
+                  <div className='flex items-center justify-center bg-gray-300 '>
+                    <img
+                      src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
+                      alt="Saved item"
+                      className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-xl font-semibold">$10.30</p>
+                    <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
+                    
+                    <div className="flex items-center gap-4">
+                      <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
+                        <BsCart3 className='w-6 h-6' />
+                        Move to cart
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div className="flex flex-col gap-4 w-50">
+                  <div className='flex items-center justify-center bg-gray-300 '>
+                    <img
+                      src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
+                      alt="Saved item"
+                      className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-xl font-semibold">$10.30</p>
+                    <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
+                    
+                    <div className="flex items-center gap-4">
+                      <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
+                        <BsCart3 className='w-6 h-6' />
+                        Move to cart
+                      </button>
+                    </div>
+                  </div>
+                  
+                </div>
+
+              </div>
+            </div>
+
+            <div className='grid grid-cols-[7fr_5fr] mt-3 text-xl text-white'>
+              <div className='bg-[#237CFF] p-5 px-7 rounded-l-lg '>
+                <h2 >Super discount on more than 100 USD</h2>
+                <p className='text-gray-300'>Have you ever finally just write dummy info</p>
+              </div>
+              <div className='bg-[#005ADE] p-5 px-7 text-end rounded-r-lg'>
+                <button className='bg-[#FF9017] p-2 rounded-lg'>Shop now</button>
               </div>
             </div>
           </div>
 
           {/* Order Summary */}
           <div className="col-span-4">
+            {/* Coupon Code */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+              <h3 className="font-semibold mb-3">Have a coupon?</h3>
+              <div className="flex border border-gray-300 rounded-lg">
+                <input
+                  type="text"
+                  placeholder="Coupon code"
+                  className="flex-1 px-4 py-2  focus:outline-none focus:border-blue-500"
+                />
+                <button className="px-6 py-2 border-l border-gray-300 text-gray-700 hover:bg-gray-200 font-medium">
+                  Apply
+                </button>
+              </div>
+            </div>
+
             <div className="bg-white rounded-lg border border-gray-200 p-6 sticky top-6">
-              <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
-              
               <div className="space-y-3 mb-4 pb-4 border-b border-gray-200">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal ({cartItems.length} items)</span>
@@ -145,7 +273,7 @@ export default function Cart() {
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>+${tax.toFixed(2)}</span>
                 </div>
               </div>
 
@@ -154,36 +282,10 @@ export default function Cart() {
                 <span>${total.toFixed(2)}</span>
               </div>
 
-              <button className="w-full px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-medium mb-3">
-                Proceed to checkout
+              <button className="w-full text-xl px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-blue-600 font-medium mb-3">
+                Checkout
               </button>
-              
-              <Link
-                to="/"
-                className="block text-center text-blue-500 hover:text-blue-600 font-medium"
-              >
-                Continue shopping
-              </Link>
-            </div>
 
-            {/* Coupon Code */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6 mt-4">
-              <h3 className="font-semibold mb-3">Have a coupon?</h3>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="Coupon code"
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                />
-                <button className="px-6 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 font-medium">
-                  Apply
-                </button>
-              </div>
-            </div>
-
-            {/* Payment Methods */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6 mt-4">
-              <h3 className="font-semibold mb-3">We accept</h3>
               <div className="flex gap-2">
                 <div className="px-3 py-2 border border-gray-200 rounded">
                   <img
@@ -203,6 +305,13 @@ export default function Cart() {
                   <img
                     src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
                     alt="PayPal"
+                    className="h-6"
+                  />
+                </div>
+                <div className="px-3 py-2 border border-gray-200 rounded">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3ZbsxfN5Kq7rN_6CQmWwrgZ2xHU_VKmI2cQ&s"
+                    alt="apple-pay"
                     className="h-6"
                   />
                 </div>
