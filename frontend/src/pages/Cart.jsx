@@ -4,6 +4,7 @@ import { MdMessage } from "react-icons/md";
 import { GrDeliver } from "react-icons/gr";
 import { FaArrowLeft } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
+import PromoBanner from '../components/PromoBanner';
 
 
 export default function Cart() {
@@ -142,7 +143,7 @@ export default function Cart() {
             </div>
 
             {/* Saved for Later */}
-            <div className="mt-6 bg-white rounded-lg border border-gray-200 p-6">
+            <div className="mt-6 mb-6 bg-white rounded-lg border border-gray-200 p-6">
               <h2 className="text-xl font-semibold mb-4">Saved for later</h2>
               <div className="flex gap-3">
                 <div className="flex flex-col gap-4 w-50">
@@ -233,7 +234,8 @@ export default function Cart() {
               </div>
             </div>
 
-            <div className='grid grid-cols-[7fr_5fr] mt-3 text-xl text-white'>
+            <PromoBanner />
+            {/* <div className='grid grid-cols-[7fr_5fr] mt-3 text-xl text-white'>
               <div className='bg-[#237CFF] p-5 px-7 rounded-l-lg '>
                 <h2 >Super discount on more than 100 USD</h2>
                 <p className='text-gray-300'>Have you ever finally just write dummy info</p>
@@ -241,7 +243,7 @@ export default function Cart() {
               <div className='bg-[#005ADE] p-5 px-7 text-end rounded-r-lg'>
                 <button className='bg-[#FF9017] p-2 rounded-lg'>Shop now</button>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Order Summary */}

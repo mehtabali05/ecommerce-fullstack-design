@@ -44,17 +44,17 @@ export default function RelatedProducts() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {products.map((product) => (
             <div key={product.id} className="group cursor-pointer">
-              <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden mb-3">
+              <div className="flex items-center justify-center aspect-square bg-gray-100 rounded-lg overflow-hidden mb-3">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-[75%] h-[75%] object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
-              <h4 className="text-sm text-gray-900 mb-1 group-hover:text-blue-500 transition">
+              <h4 className="text-xl text-gray-900 mb-1 group-hover:text-blue-500 transition">
                 {product.name}
               </h4>
-              <p className="text-sm font-medium text-gray-700">{product.price}</p>
+              <p className="font-medium text-gray-500 text-xl">{product.price}</p>
             </div>
           ))}
         </div>

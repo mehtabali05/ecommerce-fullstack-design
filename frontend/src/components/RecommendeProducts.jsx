@@ -38,18 +38,18 @@ export default function RecommendedProducts() {
         <div className="space-y-4">
           {products.map((product) => (
             <div key={product.id} className="flex gap-3 group cursor-pointer">
-              <div className="w-20 h-20 bg-gray-100 rounded overflow-hidden flex-shrink-0">
+              <div className="w-25 h-25 border border-gray-300 flex items-center justify-center rounded overflow-hidden flex-shrink-0">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-[80%] h-[80%] object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
               <div className="flex-1">
-                <h4 className="text-sm text-gray-900 mb-1 line-clamp-2 group-hover:text-blue-500 transition">
+                <h4 className="text-gray-900 mb-1 line-clamp-2 group-hover:text-blue-500 transition">
                   {product.name}
                 </h4>
-                <p className="text-sm font-medium text-gray-700">{product.price}</p>
+                <p className="font-medium text-gray-400">{product.price}</p>
               </div>
             </div>
           ))}

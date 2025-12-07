@@ -13,30 +13,30 @@ export default function ProductGallery() {
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 p-7">
       {/* Main image */}
-      <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+      <div className="flex items-center justify-center aspect-square border border-gray-300 rounded-lg overflow-hidden">
         <img
           src={images[selectedImage]}
           alt="Product"
-          className="w-full h-full object-contain"
+          className="w-[90%] h-[90%] "
         />
       </div>
 
       {/* Thumbnail gallery */}
-      <div className="grid grid-cols-6 gap-2">
+      <div className="grid grid-cols-6 gap-3">
         {images.map((image, index) => (
           <button
             key={index}
             onClick={() => setSelectedImage(index)}
-            className={`aspect-square bg-gray-100 rounded border-2 overflow-hidden transition ${
+            className={`w-20 h-20 aspect-square border border-gray-300 p-1 rounded border-2 flex items-center justify-center  overflow-hidden transition ${
               selectedImage === index ? 'border-blue-500' : 'border-transparent hover:border-gray-300'
             }`}
           >
             <img
               src={image}
               alt={`Thumbnail ${index + 1}`}
-              className="w-full h-full object-contain"
+              className="w-[90%] h-[90%] object-contain p-3"
             />
           </button>
         ))}

@@ -14,17 +14,17 @@ export default function ProductDetail() {
       
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* First row: Product gallery/info + Supplier */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
-          <div className="lg:col-span-9">
-            <div className="bg-white border border-gray-200 rounded-lg p-4 md:p-6">
+        <div className="grid bg-white border border-gray-200 grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+          <div className="lg:col-span-9 ">
+            <div className="rounded-lg p-4 md:p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                <ProductGallery />
+                <ProductGallery className="w-95 h-95" />
                 <ProductInfo />
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 p-5">
             <SupplierCard />
           </div>
         </div>

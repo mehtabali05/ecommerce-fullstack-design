@@ -27,7 +27,7 @@ export default function ProductTabs() {
   ];
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+    <div className="bg-white border border-gray-200 rounded-lg text-xl overflow-hidden">
       {/* Tabs header */}
       <div className="border-b border-gray-200">
         <div className="flex overflow-x-auto">
@@ -56,12 +56,12 @@ export default function ProductTabs() {
             </p>
 
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full border border-gray-300">
                 <tbody className="divide-y divide-gray-200">
                   {specifications.map((spec, index) => (
                     <tr key={index}>
-                      <td className="py-3 text-gray-600 w-1/3">{spec.label}</td>
-                      <td className="py-3 text-gray-900">{spec.value}</td>
+                      <td className="py-3 bg-gray-100 p-3 text-gray-600 w-1/3">{spec.label}</td>
+                      <td className="py-3 p-3 text-gray-900">{spec.value}</td>
                     </tr>
                   ))}
                 </tbody>
