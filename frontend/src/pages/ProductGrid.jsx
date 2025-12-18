@@ -1,17 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Grid, List } from 'lucide-react';
 import Breadcrumb from '../components/Breadcrumb';
 import Sidebar from '../components/Sidebar';
-import ProductCard from '../components/ProductCard';
-import ProductListView from '../components/ProductListView';
-import { products } from '../data/products';
+import ProductCard from '../components/products/ProductCard';
+import ProductListView from '../components/products/ProductListView';
 import Newsletter from '../components/NewsLetter';
+import { api } from './../api';
  
 export default function ProductGrid() {
+  const [products,setProducts] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState(['Samsung', 'Apple', 'Poco']);
   const [selectedFeatures, setSelectedFeatures] = useState(['Metallic']);
   const [activeFilters, setActiveFilters] = useState(['Samsung', 'Apple', 'Poco', 'Metallic', '4 star', '3 star']);
   const [viewMode, setViewMode] = useState('grid');
+
+  const fetchProducts = async () => {
+    try {
+      const {data} = await api.get("/api/products");
+      console.log("Grid Page data",data);
+      if(data?.success){
+        setProducts(data.products);
+      }
+    } catch (error) {
+      console.error(error);   
+    }
+  }
+
+  useEffect(()=>{
+    fetchProducts();
+  },[])
 
   const removeFilter = (filter) => {
     setActiveFilters(activeFilters.filter(f => f !== filter));
@@ -111,7 +128,7 @@ export default function ProductGrid() {
             {viewMode === 'grid' ? (
               <div className="grid grid-cols-3 gap-4 mb-8">
                 {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard key={product._id} product={product} />
                 ))}
               </div>
             ) : (

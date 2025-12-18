@@ -1,4 +1,3 @@
-// backend/utils/cloudinaryUpload.js
 import cloudinary from "../config/cloudinary.js";
 
 /**

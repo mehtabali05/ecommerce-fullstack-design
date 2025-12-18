@@ -1,12 +1,8 @@
-// backend/controllers/authController.js
 import User from "../models/User.js";
-import jwt from "jsonwebtoken";
-
-const generateToken = (id) => jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || "7d" });
+import generateToken from "../utils/jwt.js";
 
 export const register = async (req, res) => {
   try {
-    console.log("req body",req.body);
     const { name, email, password, role } = req.body;
     if (!name || !email || !password) return res.status(400).json({ message: "Name, email and password required" });
 
@@ -15,15 +11,22 @@ export const register = async (req, res) => {
 
     const user = await User.create({ name, email, password, role });
     res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user._id)
+      success: true,
+      message: "register successfully",
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        token: generateToken(user._id)
+      }
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ 
+      success: false,
+      message: "Server error"
+     });
   }
 };
 
@@ -38,16 +41,46 @@ export const login = async (req, res) => {
     const isMatch = await user.matchPassword(password);
     if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
-    res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      token: generateToken(user._id)
+    const token = generateToken(user._id);
+    res.cookie('token', token, {
+      httpOnly: true, // Prevents client-side JS (XSS) from reading the token
+      secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+      sameSite: 'Lax', // Protects against CSRF
+      maxAge: 7 * 24 * 60 * 60 * 1000 // e.g., 7 days lifetime
     });
 
-  } catch (err) {
+    res.json({
+      success: true,
+      message: "Login successfully",
+      user : {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+
+  } catch (error) {
     console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ 
+      success: false,
+      error: error.message,
+      message: "Server error"
+    });
   }
 };
+
+export const adminAuthCheck = (req, res) => {
+  // If this function executes, it means the JWT was valid and the role was 'admin'
+  res.status(200).json({ 
+      ok: true, 
+      message: "Admin authorized",
+      // You can optionally send the user data back for context (req.user is set by protect middleware)
+      user: {
+          _id: req.user._id,
+          name: req.user.name,
+          role: req.user.role 
+      }
+  });
+};
+

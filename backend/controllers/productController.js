@@ -1,4 +1,3 @@
-// backend/controllers/productController.js
 import Product from "../models/Product.js";
 import Category from "../models/Category.js";
 import { uploadBufferToCloudinary } from "../utils/cloudinaryUpload.js";
@@ -54,11 +53,19 @@ export const createProduct = async (req, res) => {
     });
 
     const populated = await Product.findById(prod._id).populate("category", "name");
-    res.status(201).json(populated);
+    res.status(201).json({
+      success: true,
+      message: "Product created successfully",
+      populated
+    });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message,
+      message: "Server error"
+    });
   }
 };
 
@@ -103,11 +110,19 @@ export const updateProduct = async (req, res) => {
 
     await prod.save();
     const updated = await Product.findById(prod._id).populate("category", "name");
-    res.json(updated);
+    res.json({
+      success: true,
+      message: "Product updated successfully",
+      updated
+    });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false,
+      error:error.message,
+      message: "Server error" 
+    });
   }
 };
 
@@ -119,31 +134,53 @@ export const deleteProduct = async (req, res) => {
     // For simplicity we are not deleting images from Cloudinary in this simple build.
     // You can extend to store public_id and remove them via cloudinary.uploader.destroy(public_id)
 
-    await prod.remove();
-    res.json({ message: "Product removed" });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    await Product.findByIdAndDelete(req.params.id);
+    res.json({ 
+      success: true,
+      message: "Product removed" 
+    });
+  } catch (error) {
+    console.error(Error);
+    res.status(500).json({ 
+      success: false,
+      error:error.message,
+      message: "Server error" 
+    });
   }
 };
 
 export const getProducts = async (req, res) => {
   try {
     const products = await Product.find({}).populate("category", "name");
-    res.json(products);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.json({
+      success: true,
+      products
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message,
+      message: "Server error" 
+    });
   }
 };
 
 export const getProductById = async (req, res) => {
   try {
-    const prod = await Product.findById(req.params.id).populate("category", "name");
-    if (!prod) return res.status(404).json({ message: "Product not found" });
-    res.json(prod);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    const product = await Product.findById(req.params.id).populate("category", "name");
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    res.json({
+      success: true,
+      product
+    }
+  );
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false,
+      error: error.message,
+      message: "Server error" 
+    });
   }
 };

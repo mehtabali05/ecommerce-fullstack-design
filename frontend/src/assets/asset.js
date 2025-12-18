@@ -36,26 +36,31 @@ import quoteImage from './Brand/quoteImage.png'
 
 const dealsAndOffers = [
     {
+        id: 1,
         image: tech8,
         category: "Smart watches",
         discount: 25
     },
     {
+        id: 2,
         image: tech7,
         category: "Laptops",
         discount: 15
     },
     {
+        id: 3,
         image: tech6,
         category: "GoPro cameras",
         discount: 40
     },
     {
+        id: 4,
         image: tech5,
         category: "headphones",
         discount: 25
     },
     {
+        id: 5,
         image: tech3,
         category: "Canon cameras",
         discount: 25

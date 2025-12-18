@@ -1,13 +1,41 @@
 import Breadcrumb from "../components/Breadcrumb";
-import ProductGallery from "../components/Productgallery";
-import ProductInfo from "../components/ProductInfo";
-import ProductTabs from "../components/ProductTabs";
+import ProductGallery from "../components/products/ProductGallery";
+import ProductInfo from "../components/products/ProductInfo";
+import ProductTabs from "../components/products/ProductTabs";
 import PromoBanner from "../components/PromoBanner";
-import RecommendedProducts from "../components/RecommendeProducts";
-import RelatedProducts from "../components/RelatedProducts";
-import SupplierCard from "../components/SupplierCard";
+import RecommendedProducts from "../components/products/RecommendeProducts";
+import RelatedProducts from "../components/products/RelatedProducts";
+import SupplierCard from "../components/supplier/SupplierCard";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { api } from "../api";
  
 export default function ProductDetail() {
+  const {id} = useParams();
+  console.log("ProductId",id);
+
+  const [product,setProduct] = useState({});
+  
+  const fetchProduct = async () => {
+    try {
+      const {data} = await api.get(`/api/products/${id}`);
+      console.log("Single Product Data",data);
+      if(data?.success){
+        setProduct(data.product);
+      }else{
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchProduct();
+  },[id]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Breadcrumb />
@@ -18,8 +46,8 @@ export default function ProductDetail() {
           <div className="lg:col-span-9 ">
             <div className="rounded-lg p-4 md:p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-                <ProductGallery className="w-95 h-95" />
-                <ProductInfo />
+                <ProductGallery pId={id} className="w-95 h-95" />
+                <ProductInfo pId={id} />
               </div>
             </div>
           </div>
@@ -32,7 +60,7 @@ export default function ProductDetail() {
         {/* Second row: Product tabs + You may like */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
           <div className="lg:col-span-9">
-            <ProductTabs />
+            <ProductTabs description={product.description} />
           </div>
 
           <div className="lg:col-span-3">
