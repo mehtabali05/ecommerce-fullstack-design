@@ -8,6 +8,7 @@ import {DE, AE, AU,CN, GB, IT, RU, US, DK,FR} from '../../assets/asset'
 import {Link} from 'react-router-dom';
 import { api } from './../../api';
 import { AiFillProduct } from "react-icons/ai";
+import { useAuth } from '../../context/AuthContext';
 
 const LANGUAGE_CURRENCY_OPTIONS = [
   { code: 'en-US', label: 'English, USD' },
@@ -36,6 +37,9 @@ function Header() {
   const [langOpen, setLangOpen] = useState(false);
   const [countryOpen, setCountryOpen] = useState(false);
   const [categories,setCategories] = useState([]);
+  const [profileOpen, setProfileOpen] = useState(false);
+
+  const { auth, setAuth,logout } = useAuth();
 
   const fetchCategories = async () => {
     try {
@@ -83,10 +87,25 @@ function Header() {
 
           {/* Icons */}
           <div className="flex items-center gap-4">
-            <Link to="/login" className="flex flex-col items-center text-gray-500 cursor-pointer hover:text-gray-700">
+            {/* <Link to="/login" className="flex flex-col items-center text-gray-500 cursor-pointer hover:text-gray-700">
               <FaUser className='w-5.5 h-5.5' />
               <span>Profile</span>
-            </Link>
+            </Link> */}
+            <div className="relative" onMouseEnter={() => setProfileOpen(true)} onMouseLeave={() => setProfileOpen(false)}>
+              <div className="flex flex-col items-center cursor-pointer text-gray-500 hover:text-gray-700">
+                <FaUser className='w-5.5 h-5.5' />
+                <span>Profile</span>
+              </div>
+              {profileOpen && (
+                <div className="absolute top-full right-0 bg-white border border-gray-200 rounded shadow-md w-32 z-50">
+                  {auth ? (
+                    <button onClick={logout} className="w-full cursor-pointer text-left px-3 py-2 hover:bg-gray-100">Logout</button>
+                  ) : (
+                    <Link to="/login" className="block cursor-pointer px-3 py-2 hover:bg-gray-100">Login</Link>
+                  )}
+                </div>
+              )}
+            </div>
             <Link to="/products" className="flex flex-col items-center text-gray-500 cursor-pointer hover:text-gray-700">
               <AiFillProduct className='w-5.5 h-5.5' />
               <span>Products</span>

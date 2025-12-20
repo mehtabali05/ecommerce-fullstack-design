@@ -19,6 +19,9 @@ const allowedOrigins = [
     'http://localhost:5174'  // Admin Dashboard App
 ];
 
+app.use(express.json()); // body parser for JSON
+app.use(cookieParser());
+
 // MIDDLEWARES
 // app.use(cors());
 app.use(cors({
@@ -33,8 +36,7 @@ app.use(cors({
     },
     credentials: true
 }));
-app.use(express.json()); // body parser for JSON
-app.use(cookieParser());
+
 
 
 // ROUTES

@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import generateToken from "../utils/jwt.js";
+import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {
   try {
@@ -103,5 +104,14 @@ export const logout = (req, res) => {
     })
   }
 };
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    res.status(200).json({ success: true, user:req.user });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Invalid token" });
+  }
+};
+
 
 

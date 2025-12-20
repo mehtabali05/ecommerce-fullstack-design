@@ -1,10 +1,12 @@
 import express from "express";
-import { register, login, adminAuthCheck, logout } from "../controllers/authController.js";
+import { register, login, adminAuthCheck, logout, getCurrentUser } from "../controllers/authController.js";
 import { authorizeAdmin, protect } from "../middlewares/auth.js";
 const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
+
+router.get("/me",protect, getCurrentUser);
 
 // 💡 NEW ROUTE: Admin Authentication Check
 router.get(
@@ -15,5 +17,8 @@ router.get(
 );
 
 router.post("/logout",logout);
+
+
+
 
 export default router;
