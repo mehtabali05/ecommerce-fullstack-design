@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { useNavigate,useLocation, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import "../../style/authStyle.css"
 import { api } from '../../api';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
     const [formData,setFormData] = useState({
@@ -11,9 +11,9 @@ const Login = () => {
         password:""
     });
 
-    const {setAuth} = useContext(AuthContext);
+    const {setAuth} = useAuth();
     const navigate = useNavigate();
-    const location = useLocation();
+    // const location = useLocation();
 
     const handleSubmit = async (e) =>{
         e.preventDefault();
@@ -21,14 +21,13 @@ const Login = () => {
             const {data} = await api.post("/api/auth/login",formData);
             // console.log(data);
             if(data && data.success){
-                const authData = data.user;
-                setAuth(authData);
-                toast.success(data.message);
+                setAuth(data.user);
+                toast.success("Login successful");
                 
-                if (authData.role === 'admin') {
-                    window.location.href = "http://localhost:5174"; 
+                if (data.user.role === 'admin') {
+                    window.location.href = "http://localhost:5174/profile"; 
                 } else {
-                    navigate(location.state || "/");
+                    navigate("/",{replace: true});
                 }
             }else{
                 toast.error(error.response?.data?.message || error.message);

@@ -3,32 +3,35 @@ import generateToken from "../utils/jwt.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
-    if (!name || !email || !password) return res.status(400).json({ message: "Name, email and password required" });
+    const { name, email, password} = req.body;
+
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "Name, email and password required" });
+    }
 
     const exists = await User.findOne({ email });
-    if (exists) return res.status(400).json({ message: "User already exists" });
+    if (exists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
 
     const user = await User.create({ name, email, password, role });
+
     res.status(201).json({
       success: true,
-      message: "register successfully",
+      message: "Registered successfully",
       user: {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role,
-        token: generateToken(user._id)
+        role: "user"
       }
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ 
-      success: false,
-      message: "Server error"
-     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
 
 export const login = async (req, res) => {
   try {
@@ -41,11 +44,11 @@ export const login = async (req, res) => {
     const isMatch = await user.matchPassword(password);
     if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
-    const token = generateToken(user._id);
+    const token = generateToken(user);
     res.cookie('token', token, {
       httpOnly: true, // Prevents client-side JS (XSS) from reading the token
       secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
-      sameSite: 'Lax', // Protects against CSRF
+      sameSite: 'strict', // Protects against CSRF
       maxAge: 7 * 24 * 60 * 60 * 1000 // e.g., 7 days lifetime
     });
 
@@ -61,7 +64,7 @@ export const login = async (req, res) => {
     });
 
   } catch (error) {
-    console.error(err);
+    console.error(error);
     res.status(500).json({ 
       success: false,
       error: error.message,
@@ -83,4 +86,22 @@ export const adminAuthCheck = (req, res) => {
       }
   });
 };
+
+export const logout = (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.json({ 
+      success: true, 
+      message: "Logged out" 
+    });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    })
+  }
+};
+
 

@@ -7,10 +7,12 @@ import UpdateProduct from './pages/admin/UpdateProduct';
 import Products from './pages/admin/Products';
 import AdminProfile from './pages/admin/AdminProfile';
 import AdminOrders from './pages/admin/AdminOrders';
+import Header from './components/Header';
 
 const App = () => {
   return (
     <>
+      <Header />
       <Routes>
         <Route path='/' element={<AdminPrivateRoute />} > 
           <Route path='profile' element={<AdminProfile />} />

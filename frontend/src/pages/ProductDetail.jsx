@@ -69,7 +69,7 @@ export default function ProductDetail() {
         </div>
 
         {/* Third row: Related products */}
-        <RelatedProducts />
+        <RelatedProducts productId={product._id} categoryId={product?.category?._id} />
 
         {/* Promo banner */}
         <div className="mt-8">

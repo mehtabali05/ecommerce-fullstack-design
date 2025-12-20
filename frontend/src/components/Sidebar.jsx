@@ -1,13 +1,44 @@
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { api } from '../api';
+import { toast } from 'react-hot-toast';
 
-export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatures, onFeaturesChange }) {
+export default function Sidebar({ selectedCategory,onCategoryChange, selectedBrands, onBrandsChange, selectedFeatures, onFeaturesChange }) {
   const [showAllBrands, setShowAllBrands] = useState(false);
   const [showAllFeatures, setShowAllFeatures] = useState(false);
+  const [showAllConditions, setShowAllConditions] = useState(false);
+  const [showAllRatings, setShowAllRatings] = useState(false);
 
-  const categories = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech'];
+  const [categories,setCategories] = useState([]);
+  const [showAllCategories, setShowAllCategories] = useState(false);
+  const [loading,setLoading] = useState(false);
+
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
+      const {data} = await api.get("/api/categories");
+      console.log("Sidebar category",data);
+      if(data?.success){
+        setCategories(data.categories);
+      }else{
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }finally{
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchCategories();
+  },[]);
+
+  // const categories = ['Mobile accessory', 'Electronics', 'Smartphones', 'Modern tech'];
   const brands = ['Samsung', 'Apple', 'Huawei', 'Poco', 'Lenovo'];
   const features = ['Metallic', 'Plastic cover', '8GB Ram', 'Super power', 'Large Memory'];
+  const conditions = ['Any', 'Refurbished', 'Brand new', 'Old items'];
+  const ratings = [5, 4, 3, 2];
 
   const handleBrandToggle = (brand) => {
     if (selectedBrands.includes(brand)) {
@@ -25,34 +56,66 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
     }
   };
 
+  const handleCategoryClick = (category) => {
+    if (selectedCategory === category._id) {
+      onCategoryChange(null); // unselect
+    } else {
+      onCategoryChange(category._id);
+    }
+  };
+
+  const displayedCategories = showAllCategories ? categories : categories.slice(0, 5);
+  const displayedBrands = showAllBrands ? brands : brands.slice(0, 0);
+  const displayedFeatures = showAllFeatures ? features : features.slice(0, 0);
+  const displayedConditions = showAllConditions ? conditions : conditions.slice(0, 0);
+  const displayedRatings = showAllRatings ? ratings : ratings.slice(0, 0);
+
   return (
     <div className="w-64 flex-shrink-0">
       {/* Category */}
       <div className="mb-6">
-        <button className="flex items-center justify-between w-full mb-3 mt-2 text-xl font-semibold">
+        <button className="flex cursor-pointer items-center justify-between w-full mb-3 mt-2 text-xl font-semibold">
           <span>Category</span>
-          <ChevronDown className="w-4 h-4" />
+          {showAllCategories ? <ChevronUp className="w-4 h-4" onClick={() => setShowAllCategories(!showAllCategories)} /> : <ChevronDown className="w-4 h-4" onClick={() => setShowAllCategories(!showAllCategories)} />}
         </button>
         <ul className="space-y-2">
-          {categories.map((category) => (
-            <li key={category}>
-              <button className="text-gray-700 hover:text-blue-500">{category}</button>
+          {displayedCategories.map((category) => (
+            <li key={category._id}>
+              <button
+                onClick={() => handleCategoryClick(category)}
+                className={`text-left w-full cursor-pointer ${
+                  selectedCategory === category._id
+                    ? "text-blue-600 font-semibold"
+                    : "text-gray-700 hover:text-blue-500"
+                }`}
+              >
+                {category.name}
+              </button>
             </li>
           ))}
-          <li>
-            <button className="text-blue-500 hover:text-blue-600 font-medium">See all</button>
-          </li>
+
+          {categories.length > 5 && (
+            <li>
+              <button
+                onClick={() => setShowAllCategories(!showAllCategories)}
+                className="text-blue-500 cursor-pointer hover:text-blue-600 font-medium"
+              >
+                {showAllCategories ? "Show less" : "See all"}
+              </button>
+            </li>
+          )}
         </ul>
+
       </div>
 
       {/* Brands */}
       <div className="mb-6">
         <button className="flex items-center justify-between w-full mb-3 mt-2 text-xl font-semibold">
           <span>Brands</span>
-          <ChevronDown className="w-4 h-4" />
+          {showAllBrands ? <ChevronUp className="w-4 h-4" onClick={() => setShowAllBrands(!showAllBrands)} /> : <ChevronDown className="w-4 h-4" onClick={() => setShowAllBrands(!showAllBrands)} />}
         </button>
         <ul className="space-y-2">
-          {brands.slice(0, showAllBrands ? brands.length : 4).map((brand) => (
+          {displayedBrands.slice(0, showAllBrands ? brands.length : 0).map((brand) => (
             <li key={brand} className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -81,10 +144,10 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
       <div className="mb-6">
         <button className="flex items-center justify-between w-full mb-3 mt-2 text-xl font-semibold">
           <span>Features</span>
-          <ChevronDown className="w-4 h-4" />
+          {showAllFeatures ? <ChevronUp className="w-4 h-4" onClick={() => setShowAllFeatures(!showAllFeatures)} /> : <ChevronDown className="w-4 h-4" onClick={() => setShowAllFeatures(!showAllFeatures)} />}
         </button>
         <ul className="space-y-2">
-          {features.slice(0, showAllFeatures ? features.length : 4).map((feature) => (
+          {displayedFeatures.slice(0, showAllFeatures ? features.length : 0).map((feature) => (
             <li key={feature} className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -138,10 +201,10 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
       <div className="mb-6">
         <button className="flex items-center justify-between w-full mb-3 font-semibold">
           <span>Condition</span>
-          <ChevronDown className="w-4 h-4" />
+          {showAllConditions ? <ChevronUp className="w-4 h-4" onClick={() => setShowAllConditions(!showAllConditions)} /> : <ChevronDown className="w-4 h-4" onClick={() => setShowAllConditions(!showAllConditions)} />}
         </button>
         <ul className="space-y-2 text-sm">
-          {['Any', 'Refurbished', 'Brand new', 'Old items'].map((condition) => (
+          {displayedConditions.slice(0, showAllConditions ? conditions.length : 0).map((condition) => (
             <li key={condition} className="flex items-center gap-2">
               <input
                 type="radio"
@@ -154,6 +217,14 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
               </label>
             </li>
           ))}
+          <li>
+            <button
+              onClick={() => setShowAllConditions(!showAllConditions)}
+              className="text-blue-500 hover:text-blue-600 font-medium"
+            >
+              {showAllConditions ? 'See less' : 'See all'}
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -161,10 +232,10 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
       <div className="mb-6">
         <button className="flex items-center justify-between w-full mb-3 font-semibold">
           <span>Ratings</span>
-          <ChevronDown className="w-4 h-4" />
+          {showAllRatings ? <ChevronUp className="w-4 h-4" onClick={() => setShowAllRatings(!showAllRatings)} /> : <ChevronDown className="w-4 h-4" onClick={() => setShowAllRatings(!showAllRatings)} />}
         </button>
         <ul className="space-y-2 text-sm">
-          {[5, 4, 3, 2].map((rating) => (
+          {displayedRatings.slice(0, showAllRatings ? ratings.length : 0).map((rating) => (
             <li key={rating} className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -181,6 +252,15 @@ export default function Sidebar({ selectedBrands, onBrandsChange, selectedFeatur
               </label>
             </li>
           ))}
+
+          <li>
+            <button
+              onClick={() => setShowAllRatings(!showAllRatings)}
+              className="text-blue-500 hover:text-blue-600 font-medium"
+            >
+              {showAllRatings ? 'See less' : 'See all'}
+            </button>
+          </li>
         </ul>
       </div>
     </div>

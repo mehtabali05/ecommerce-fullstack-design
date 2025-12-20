@@ -1,103 +1,79 @@
-import { useState } from 'react';
 import { MdLock } from "react-icons/md";
 import { MdMessage } from "react-icons/md";
 import { GrDeliver } from "react-icons/gr";
 import { FaArrowLeft } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import PromoBanner from '../components/PromoBanner';
+import { useCart } from '../context/CartContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: '1',
-      name: 'T-shirts with multiple colors, for men',
-      price: 10.30,
-      quantity: 2,
-      size: 'Medium',
-      color: 'Blue',
-      image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200',
-      seller: 'Seller: ABC Electronics',
-    },
-    {
-      id: '2',
-      name: 'T-shirts with multiple colors, for men',
-      price: 10.30,
-      quantity: 1,
-      size: 'Large',
-      color: 'White',
-      image: 'https://images.unsplash.com/photo-1622445275463-afa2ab738c34?w=200',
-      seller: 'Seller: Tech World',
-    },
-    {
-      id: '3',
-      name: 'T-shirts with multiple colors, for men',
-      price: 10.30,
-      quantity: 1,
-      size: 'Small',
-      color: 'Black',
-      image: 'https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=200',
-      seller: 'Seller: Fashion Store',
-    },
-  ]);
+  const { cart, removeFromCart, updateQuantity, totalPrice } = useCart();
+  const navigate = useNavigate();
 
-  const updateQuantity = (id, newQuantity) => {
-    if (newQuantity < 1) return;
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
+  // Logic for totals
+  const discount = 20;
+  const tax = 5;
+  const finalTotal = totalPrice > 0 ? (totalPrice - discount + tax) : 0;
+
+  if (cart?.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] gap-4 bg-gray-50">
+        <BsCart3 className="text-8xl text-gray-200" />
+        <h2 className="text-2xl font-semibold text-gray-400">Your cart is empty</h2>
+        <Link to="/products" className="bg-blue-500 text-white px-8 py-3 rounded-lg hover:bg-blue-600 shadow-lg transition-all">
+          Start Shopping
+        </Link>
+      </div>
     );
-  };
-
-  const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
-
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const discount = 60;
-  const tax = 14;
-  const total = subtotal - discount + tax;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
 
       <main className="flex-1 max-w-7xl mx-auto px-4 py-6 w-full">
 
-        <h1 className="text-2xl font-semibold mb-6">My Cart ({cartItems.length})</h1>
+        <h1 className="text-2xl font-semibold mb-6">My Cart ({cart?.length})</h1>
 
         <div className="grid grid-cols-12 gap-6">
           {/* Cart Items */}
           <div className="col-span-8">
             <div className="bg-white rounded-lg p-2 border border-gray-200">
-              {cartItems.map((item, idx) => (
-                <div key={item.id} className={`p-6 ${idx !== cartItems.length - 1 ? 'border-b border-gray-200' : ''}`}>
+              {JSON.stringify(cart,null,4)}
+              {cart?.map((item,idx) => (
+                <div key={item._id} className={`p-6 ${idx !== cart?.length - 1 ? 'border-b border-gray-200' : ''}`}>
                   <div className="flex gap-4">
                     <img
-                      src={item.image}
+                      src={item.mainImage}
                       alt={item.name}
                       className="w-24 h-24 p-3 bg-gray-100 object-cover rounded border border-gray-200"
                     />
                     <div className="flex-1">
                       <h3 className="font-medium mb-1">{item.name}</h3>
                       <div className="flex gap-4 text-gray-500">
-                        <span>Size: {item.size}</span>
-                        <span>Color: {item.color}</span>
+                        <span>Size: Small</span>
+                        <span>Color: Black</span>
                         <span>Material: Plastic</span>
                       </div>
-                      <p className="text-gray-500 mb-2">{item.seller}</p>
+                      <p className="text-gray-500 mb-2">Mehtab Ali</p>
 
                       <div>
-                        <button className='text-red-500 border border-gray-300 px-2 py-1 rounded-md mr-3'>Remove</button>
-                        <button className='text-blue-500 border border-gray-300 px-2 py-1 rounded-md'>Save for later</button>
+                        <button onClick={() => removeFromCart(item._id)} className='text-red-500 cursor-pointer border border-gray-300 px-2 py-1 rounded-md mr-3'>Remove</button>
+                        <button className='text-blue-500 border cursor-pointer border-gray-300 px-2 py-1 rounded-md'>Save for later</button>
                       </div>
                     </div>
                     <div className="flex flex-col items-end justify-between">
                       <div className="text-right">
                         <p className="text-lg font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
-                        <select name="" id="" className='border border-gray-300 rounded-md px-3 mt-2 py-2'>
-                          <option value=""> Qty : {item.quantity} </option>
-                          <option value=""> Qty: {item.quantity} </option>   
+                        <select 
+                          value={item.quantity}
+                          onChange={(e) => updateQuantity(item._id, Number(e.target.value))}
+                          className='border border-gray-300 rounded-md px-3 mt-2 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none'
+                          >
+                          {[...Array(10).keys()].map((q) => (
+                            <option key={q + 1} value={q + 1}>Qty: {q + 1}</option>
+                          ))}   
                         </select>
                       </div>
                     </div>
@@ -105,7 +81,11 @@ export default function Cart() {
                 </div>
               ))}
             <div className='flex justify-between p-4 border-t border-gray-200'>
-              <button className='flex items-center gap-3 bg-blue-500 text-white cursor-pointer p-2 rounded-lg'><FaArrowLeft /> Back to shop</button>
+              <button 
+              onClick={() => navigate('/products')}
+              className='flex items-center gap-3 bg-blue-500 text-white cursor-pointer p-2 rounded-lg'
+              >
+                <FaArrowLeft /> Back to shop</button>
               <button className='text-blue-500 cursor-pointer p-2 rounded-lg border border-gray-300'>Remove all</button>
             </div>
             </div>
@@ -146,104 +126,33 @@ export default function Cart() {
             <div className="mt-6 mb-6 bg-white rounded-lg border border-gray-200 p-6">
               <h2 className="text-xl font-semibold mb-4">Saved for later</h2>
               <div className="flex gap-3">
-                <div className="flex flex-col gap-4 w-50">
-                  <div className='flex items-center justify-center bg-gray-300 '>
-                    <img
-                      src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
-                      alt="Saved item"
-                      className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-xl font-semibold">$10.30</p>
-                    <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
-                    
-                    <div className="flex items-center gap-4">
-                      <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
-                        <BsCart3 className='w-6 h-6' />
-                        Move to cart
-                      </button>
+                {[1, 2, 3, 4].map((i,idx) => (         
+                  <div className="flex flex-col gap-4 w-50" key={idx}>
+                    <div className='flex items-center justify-center bg-gray-300 '>
+                      <img
+                        src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
+                        alt="Saved item"
+                        className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
+                      />
                     </div>
+                    <div className="flex flex-col">
+                      <p className="text-xl font-semibold">$10.30</p>
+                      <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
+                      
+                      <div className="flex items-center gap-4">
+                        <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
+                          <BsCart3 className='w-6 h-6' />
+                          Move to cart
+                        </button>
+                      </div>
+                    </div>   
                   </div>
-                  
-                </div>
-                <div className="flex flex-col gap-4 w-50">
-                  <div className='flex items-center justify-center bg-gray-300 '>
-                    <img
-                      src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
-                      alt="Saved item"
-                      className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-xl font-semibold">$10.30</p>
-                    <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
-                    
-                    <div className="flex items-center gap-4">
-                      <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
-                        <BsCart3 className='w-6 h-6' />
-                        Move to cart
-                      </button>
-                    </div>
-                  </div>
-                  
-                </div>
-                <div className="flex flex-col gap-4 w-50">
-                  <div className='flex items-center justify-center bg-gray-300 '>
-                    <img
-                      src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
-                      alt="Saved item"
-                      className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-xl font-semibold">$10.30</p>
-                    <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
-                    
-                    <div className="flex items-center gap-4">
-                      <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
-                        <BsCart3 className='w-6 h-6' />
-                        Move to cart
-                      </button>
-                    </div>
-                  </div>
-                  
-                </div>
-                <div className="flex flex-col gap-4 w-50">
-                  <div className='flex items-center justify-center bg-gray-300 '>
-                    <img
-                      src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=200"
-                      alt="Saved item"
-                      className="w-[80%] h-[80%] object-cover rounded border border-gray-200"
-                    />
-                  </div>
-                  <div className="flex flex-col">
-                    <p className="text-xl font-semibold">$10.30</p>
-                    <h3 className="text-xl text-gray-400 mb-1 mt-1">T-shirts with multiple colors, for men</h3>
-                    
-                    <div className="flex items-center gap-4">
-                      <button className="flex gap-3 text-xl items-center text-blue-500 border border-gray-300 p-3 rounded-lg hover:text-blue-600 font-medium">
-                        <BsCart3 className='w-6 h-6' />
-                        Move to cart
-                      </button>
-                    </div>
-                  </div>
-                  
-                </div>
-
+                ))}
               </div>
             </div>
 
+            
             <PromoBanner />
-            {/* <div className='grid grid-cols-[7fr_5fr] mt-3 text-xl text-white'>
-              <div className='bg-[#237CFF] p-5 px-7 rounded-l-lg '>
-                <h2 >Super discount on more than 100 USD</h2>
-                <p className='text-gray-300'>Have you ever finally just write dummy info</p>
-              </div>
-              <div className='bg-[#005ADE] p-5 px-7 text-end rounded-r-lg'>
-                <button className='bg-[#FF9017] p-2 rounded-lg'>Shop now</button>
-              </div>
-            </div> */}
           </div>
 
           {/* Order Summary */}
@@ -266,22 +175,22 @@ export default function Cart() {
             <div className="bg-white rounded-lg border border-gray-200 p-6 sticky top-6">
               <div className="space-y-3 mb-4 pb-4 border-b border-gray-200">
                 <div className="flex justify-between text-gray-600">
-                  <span>Subtotal ({cartItems.length} items)</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>Subtotal ({cart.length} items)</span>
+                  <span>${totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Discount</span>
-                  <span className="text-red-500">-${discount.toFixed(2)}</span>
+                  <span className="text-red-500">-${discount}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax</span>
-                  <span>+${tax.toFixed(2)}</span>
+                  <span>+${tax}</span>
                 </div>
               </div>
 
               <div className="flex justify-between text-lg font-semibold mb-6">
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>${finalTotal.toFixed(2)}</span>
               </div>
 
               <button className="w-full text-xl px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-blue-600 font-medium mb-3">

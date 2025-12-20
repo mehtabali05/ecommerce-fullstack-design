@@ -5,14 +5,17 @@ import {
   updateProduct,
   deleteProduct,
   getProducts,
-  getProductById
+  getProductById,
+  relatedProducts,
+  getProductListController
 } from "../controllers/productController.js";
 import { protect, authorizeAdmin } from "../middlewares/auth.js";
 
 const router = express.Router();
 
 // public
-router.get("/", getProducts);
+// router.get("/", getProducts);
+router.get("/", getProductListController);
 router.get("/:id", getProductById);
 
 // admin-protected: create, update, delete
@@ -33,5 +36,7 @@ router.put("/:id", protect, authorizeAdmin,
 );
 
 router.delete("/:id", protect, authorizeAdmin, deleteProduct);
+
+router.get("/:pId/:cId",relatedProducts);
 
 export default router;

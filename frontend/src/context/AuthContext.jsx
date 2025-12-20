@@ -1,21 +1,22 @@
-import { createContext, useEffect, useState } from "react";
+// context/AuthContext.jsx
+import { createContext, useEffect, useState, useContext } from "react";
+import { api } from "../api";
 
 const AuthContext = createContext();
 
-const AuthContextProvider = ({children}) =>{
-    const [auth,setAuth] = useState({});
+export const AuthContextProvider = ({ children }) => {
+  const [auth, setAuth] = useState(null);
 
-    useEffect(() => {
-        const data = localStorage.getItem("auth");
-        if (data) {
-            setAuth(JSON.parse(data));
-        }
-    }, []);
-    return (
-        <AuthContext.Provider value={{ auth, setAuth }}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
+  const logout = async () => {
+    await api.post("api/auth/logout");
+    setUser(null);
+  };
+  
+  return (
+    <AuthContext.Provider value={{ auth, setAuth,logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-export {AuthContextProvider,AuthContext};
+export const useAuth = () => useContext(AuthContext);

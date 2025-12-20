@@ -184,3 +184,65 @@ export const getProductById = async (req, res) => {
     });
   }
 };
+
+export const relatedProducts = async (req,res) => {
+  try {
+    const {pId,cId} = req.params;
+
+    const relatedProducts = await Product.find({category:cId,_id:{$ne:pId}}).limit(6).populate("category");
+    res.status(200).json({
+      success: true,
+      relatedProducts
+    });
+  } catch (error) {
+    console.error("Related products error",error);
+    res.status(500).json({
+      success: false,
+      message:"Internal Server Error",
+      error: error.message,
+    })
+  }
+}
+
+
+export const getProductListController = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const sort = req.query.sort || "featured";
+    const category = req.query.category;
+
+    const query = {};
+    let sortQuery = {};
+
+    if(category){
+      query.category = category;
+    }
+
+    if (sort === "price_asc") sortQuery.price = 1;
+    if (sort === "price_desc") sortQuery.price = -1;
+    if (sort === "newest") sortQuery.createdAt = -1;
+
+    // 2. Get total count of products (to calculate total pages)
+    // const totalProducts = await Product.find({}).countDocuments();
+    const totalProducts = await Product.countDocuments(query);
+
+    // 3. Fetch the specific "slice" of data
+    const products = await Product.find(query)
+      .sort(sortQuery)
+      .skip(skip)
+      .limit(limit);
+
+    res.status(200).send({
+      success: true,
+      message: "Products fetched successfully",
+      products,
+      totalCount: totalProducts,
+      currentPage: page,
+      totalPages: Math.ceil(totalProducts / limit),
+    });
+  } catch (error) {
+    res.status(500).send({ success: false, message: "Error in pagination logic", error });
+  }
+};

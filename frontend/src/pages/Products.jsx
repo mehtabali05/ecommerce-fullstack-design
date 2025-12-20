@@ -14,23 +14,73 @@ export default function Products() {
   const [selectedFeatures, setSelectedFeatures] = useState(['Metallic']);
   const [activeFilters, setActiveFilters] = useState(['Samsung', 'Apple', 'Poco', 'Metallic', '4 star', '3 star']);
   const [viewMode, setViewMode] = useState('grid');
+  const [sort, setSort] = useState("featured");
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+//   // --- PAGINATION STATES ---
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(9);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+//   // -------------------------
+ 
+//   // Updated Fetch logic with query params
+  // const fetchProducts = async () => {
+  //   try {
+  //     const { data } = await api.get(`/api/products?page=${page}&limit=${limit}&sort=${sort}`);
+  //     if (data.success) {
+  //       setProducts(data.products);
+  //       setTotalPages(data.totalPages);
+  //       setTotalItems(data.totalCount);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   const fetchProducts = async () => {
     try {
-      const {data} = await api.get("/api/products");
-      console.log(data);
-      if(data.success){
+      const query = new URLSearchParams({
+        page,
+        limit,
+        sort,
+        ...(selectedCategory && { category: selectedCategory })
+      }).toString();
+  
+      const { data } = await api.get(`/api/products?${query}`);
+  
+      if (data.success) {
         setProducts(data.products);
+        setTotalPages(data.totalPages);
+        setTotalItems(data.totalCount);
       }
     } catch (error) {
       console.error(error);
-      
     }
-  }
+  };
+  
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchProducts();
-  },[])
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  }, [page, limit,sort,selectedCategory]); // Re-run when page or limit changes
+
+  // const fetchProducts = async () => {
+  //   try {
+  //     const {data} = await api.get("/api/products");
+  //     console.log(data);
+  //     if(data.success){
+  //       setProducts(data.products);
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+      
+  //   }
+  // }
+
+  // useEffect(()=>{
+  //   fetchProducts();
+  // },[])
 
   const removeFilter = (filter) => {
     setActiveFilters(activeFilters.filter(f => f !== filter));
@@ -63,6 +113,11 @@ export default function Products() {
 
         <div className="flex gap-6">
           <Sidebar
+            selectedCategory={selectedCategory}
+            onCategoryChange={(categoryId) => {
+              setSelectedCategory(categoryId);
+              setPage(1); // reset pagination on category change
+            }}
             selectedBrands={selectedBrands}
             onBrandsChange={setSelectedBrands}
             selectedFeatures={selectedFeatures}
@@ -73,18 +128,25 @@ export default function Products() {
             {/* Header */}
             <div className="flex bg-white px-5 py-3 border border-gray-100 items-center justify-between mb-6">
               <h1 className="text-xl font-semibold">
-                12,911 items in <span className="font-bold">Mobile accessory</span>
+              {totalItems} <span className="font-bold">Mobile accessory</span>
               </h1>
               <div className="flex items-center gap-4">
                 <label className="flex items-center gap-2 text-sm">
                   <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
                   <span className="text-gray-700">Verified only</span>
                 </label>
-                <select className="px-4 py-2 border border-gray-300 rounded text-sm bg-white focus:outline-none focus:border-blue-500">
-                  <option>Featured</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                  <option>Newest</option>
+                <select 
+                  value={sort}
+                  onChange={(e) => {
+                    setSort(e.target.value);
+                    setPage(1); // reset pagination on sort
+                  }}
+                  className="px-4 py-2 border border-gray-300 rounded text-sm bg-white focus:outline-none focus:border-blue-500"
+                >
+                  <option value="featured">Featured</option>
+                  <option value="price_asc">Price: Low to High</option>
+                  <option value="price_desc">Price: High to Low</option>
+                  <option value="newest">Newest</option>
                 </select>
                 <div className="flex gap-1 border border-gray-300 rounded">
                   <button
@@ -144,18 +206,43 @@ export default function Products() {
             {/* Pagination */}
            <div className='flex justify-end pr-8 mb-10'>
               <div className="flex items-center justify-center gap-2">
-                <select className="px-3 py-2 border border-gray-300 rounded bg-white">
-                  <option>Show 10</option>
-                  <option>Show 20</option>
-                  <option>Show 50</option>
+                <select 
+                  value={limit}
+                  onChange={(e) => {setLimit(Number(e.target.value)); setPage(1);}}
+                  className="px-3 py-2 border border-gray-300 rounded bg-white"
+                >
+                  <option value={10}>Show 10</option>
+                  <option value={20}>Show 20</option>
+                  <option value={30}>Show 30</option>
                 </select>
-                <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">
+                <button 
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                  className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                  >
                   &lt;
                 </button>
-                <button className="px-3 py-2 bg-blue-500 text-white rounded">1</button>
-                <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">2</button>
-                <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">3</button>
-                <button className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50">
+                {[...Array(totalPages)].map((_, index) => {
+                  const pageNumber = index + 1;
+                  return (
+                    <button
+                      key={pageNumber}
+                      onClick={() => setPage(pageNumber)}
+                      className={`px-3 py-2 rounded ${
+                        page === pageNumber
+                          ? "bg-blue-500 text-white"
+                          : "border border-gray-300 hover:bg-gray-50"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  );
+                })}
+                <button 
+                  disabled={page === totalPages}
+                  onClick={() => setPage(page + 1)}
+                  className="px-3 py-2 border border-gray-300 rounded hover:bg-gray-50"
+                  >
                   &gt;
                 </button>
               </div>
@@ -168,3 +255,4 @@ export default function Products() {
     </div>
   );
 }
+

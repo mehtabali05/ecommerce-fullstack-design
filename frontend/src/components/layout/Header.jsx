@@ -9,25 +9,32 @@ import {Link} from 'react-router-dom';
 import { api } from './../../api';
 import { AiFillProduct } from "react-icons/ai";
 
-// const COUNTRY_OPTIONS = [
-//   { code: 'US', flag: US, name: 'United States' },
-//   { code: 'AE', flag: AE, name: 'United Arab Emirates' },
-//   { code: 'AU', flag: AU, name: 'Australia' },
-//   { code: 'CN', flag: CN, name: 'China' },
-//   { code: 'DE', flag: DE, name: 'Germany' },
-//   { code: 'DK', flag: DK, name: 'Denmark' },
-//   { code: 'FR', flag: FR, name: 'France' },
-//   { code: 'GB', flag: GB, name: 'United Kingdom' },
-//   { code: 'IT', flag: IT, name: 'Italy' },
-//   { code: 'RU', flag: RU, name: 'Russia' },
-// ];
+const LANGUAGE_CURRENCY_OPTIONS = [
+  { code: 'en-US', label: 'English, USD' },
+  { code: 'en-GB', label: 'English, GBP' },
+  { code: 'fr-FR', label: 'French, EUR' },
+];
 
+const COUNTRY_OPTIONS = [
+  { code: 'US', flag: US, name: 'United States' },
+  { code: 'AE', flag: AE, name: 'United Arab Emirates' },
+  { code: 'AU', flag: AU, name: 'Australia' },
+  { code: 'CN', flag: CN, name: 'China' },
+  { code: 'DE', flag: DE, name: 'Germany' },
+  { code: 'DK', flag: DK, name: 'Denmark' },
+  { code: 'FR', flag: FR, name: 'France' },
+  { code: 'GB', flag: GB, name: 'United Kingdom' },
+  { code: 'IT', flag: IT, name: 'Italy' },
+  { code: 'RU', flag: RU, name: 'Russia' },
+];
 
-
-// const [selectedCountry, setSelectedCountry] = useState(COUNTRY_OPTIONS[0]);
 
 function Header() {
-
+  const [selectedLang, setSelectedLang] = useState(LANGUAGE_CURRENCY_OPTIONS[0]);
+  const [selectedCountry, setSelectedCountry] = useState(COUNTRY_OPTIONS[0]);
+  
+  const [langOpen, setLangOpen] = useState(false);
+  const [countryOpen, setCountryOpen] = useState(false);
   const [categories,setCategories] = useState([]);
 
   const fetchCategories = async () => {
@@ -120,18 +127,80 @@ function Header() {
             </nav>
           </div>
           <div className="flex items-center gap-4">
-          English, USD
+            {/* English, USD
             <select className="flex items-center gap-1 text-gray-900 hover:text-gray-600">
               
-              {/* <ChevronDown className="w-3 h-3" /> */}
-            </select>
-            Ship to
-            {/* <select className="flex items-center gap-1 text-gray-900 hover:text-gray-600">
-              {COUNTRY_OPTIONS.map((option) =>(
-                <option key={option.value} value={option.value}><img src={option.flag} alt="US" className="w-4 h-3" /></option>
-              ))}
               <ChevronDown className="w-3 h-3" />
-            </select> */}
+            </select>
+            Ship to */}
+            <div className="flex items-center gap-6 relative">
+              {/* Language & Currency Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setLangOpen(!langOpen)}
+                  className="flex items-center gap-1 text-gray-900 hover:text-gray-600"
+                >
+                  {selectedLang.label}
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+
+                {langOpen && (
+                  <ul className="absolute mt-2 w-40 bg-white border border-gray-200 rounded shadow-md z-50">
+                    {LANGUAGE_CURRENCY_OPTIONS.map((item) => (
+                      <li
+                        key={item.code}
+                        onClick={() => {
+                          setSelectedLang(item);
+                          setLangOpen(false);
+                        }}
+                        className="px-3 py-2 text-sm cursor-pointer hover:bg-gray-100"
+                      >
+                        {item.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              {/* Country / Ship To Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setCountryOpen(!countryOpen)}
+                  className="flex items-center gap-2 text-gray-900 hover:text-gray-600"
+                >
+                  Ship to
+                  <img
+                    src={selectedCountry.flag}
+                    alt={selectedCountry.code}
+                    className="w-5 h-3 object-cover"
+                  />
+                  <ChevronDown className="w-3 h-3" />
+                </button>
+
+                {countryOpen && (
+                  <ul className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-50">
+                    {COUNTRY_OPTIONS.map((country) => (
+                      <li
+                        key={country.code}
+                        onClick={() => {
+                          setSelectedCountry(country);
+                          setCountryOpen(false);
+                        }}
+                        className="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-gray-100"
+                      >
+                        <img
+                          src={country.flag}
+                          alt={country.code}
+                          className="w-5 h-3 object-cover"
+                        />
+                        <span className="text-sm">{country.name}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
+
           </div>
         </div>
       </div>

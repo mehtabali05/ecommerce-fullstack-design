@@ -1,5 +1,5 @@
 import express from "express";
-import { register, login, adminAuthCheck } from "../controllers/authController.js";
+import { register, login, adminAuthCheck, logout } from "../controllers/authController.js";
 import { authorizeAdmin, protect } from "../middlewares/auth.js";
 const router = express.Router();
 
@@ -13,5 +13,7 @@ router.get(
     authorizeAdmin, // 2. Checks if req.user.role === 'admin'
     adminAuthCheck  // 3. Sends the final success response if both checks pass
 );
+
+router.post("/logout",logout);
 
 export default router;
