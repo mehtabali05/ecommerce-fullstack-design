@@ -204,6 +204,9 @@ export const relatedProducts = async (req,res) => {
   }
 }
 
+const escapeRegex = (text) => {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 export const getProductListController = async (req, res) => {
   try {
@@ -212,24 +215,45 @@ export const getProductListController = async (req, res) => {
     const skip = (page - 1) * limit;
     const sort = req.query.sort || "featured";
     const category = req.query.category;
+    const search = req.query.search;
 
-    const query = {};
+    // const query = {};
     let sortQuery = {};
+    let filter = {};
+
+    if (search) {
+
+      const safeSearch = escapeRegex(search);
+
+      // 1. Find matching categories
+      const matchedCategories = await Category.find({
+        name: { $regex: safeSearch, $options: "i" }
+      }).select("_id");
+    
+      const categoryIds = matchedCategories.map(cat => cat._id);
+    
+      // 2. Apply combined search filter
+      filter.$or = [
+        { name: { $regex: safeSearch, $options: "i" } },
+        { description: { $regex: safeSearch, $options: "i" } },
+        { brand: { $regex: safeSearch, $options: "i" } },
+        { category: { $in: categoryIds } }
+      ];
+    }
+    
 
     if(category){
-      query.category = category;
+      filter.category = category;
     }
 
     if (sort === "price_asc") sortQuery.price = 1;
     if (sort === "price_desc") sortQuery.price = -1;
     if (sort === "newest") sortQuery.createdAt = -1;
 
-    // 2. Get total count of products (to calculate total pages)
-    // const totalProducts = await Product.find({}).countDocuments();
-    const totalProducts = await Product.countDocuments(query);
+    const totalProducts = await Product.countDocuments(filter);
 
     // 3. Fetch the specific "slice" of data
-    const products = await Product.find(query)
+    const products = await Product.find(filter)
       .sort(sortQuery)
       .skip(skip)
       .limit(limit);

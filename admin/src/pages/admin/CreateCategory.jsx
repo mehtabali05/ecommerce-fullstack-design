@@ -1,7 +1,6 @@
 import React from 'react'
 import AdminMenu from '../../components/AdminMenu.jsx'
 import { useState,useEffect } from 'react'
-import axios from 'axios'
 import toast from 'react-hot-toast'
 import CategoryForm from '../../components/CategoryForm.jsx'
 import {Modal} from 'antd'
@@ -18,7 +17,6 @@ const CreateCategory = () => {
     e.preventDefault();
     try {
       const {data} = await api.post("/api/categories",{name});
-      // console.log("Create category data",data);
       if(data?.success){
         toast.success(`${name} is Created Successfully`);
         setName("");
@@ -49,31 +47,32 @@ const CreateCategory = () => {
     getAllCategory();
   },[]);
 
-  const handleUpdate = async (e) =>{
-    e.preventDefault();
-    try {
-      const {data} = await axios.put(`${import.meta.env.VITE_API}/api/v1/category/update-category/${selected._id}`,{name:updatedName});
-      if(data?.success){
-        toast.success(`${name} Updated Successfully`);
-        setSelected(null);
-        setUpdatedName("");
-        setVisible(false);
-        getAllCategory();
-      }else{
-        toast.error(data.message);
-      }
-    } catch (error) {
-      toast.error("Something went wrong in updating category");
-    }
-  }
+  // const handleUpdate = async (e) =>{
+  //   e.preventDefault();
+  //   try {
+  //     const {data} = await api.put(`/api/categories/${selected._id}`,{name:updatedName});
+  //     if(data?.success){
+  //       toast.success(`${name} Updated Successfully`);
+  //       setSelected(null);
+  //       setUpdatedName("");
+  //       setVisible(false);
+  //       getAllCategory();
+  //     }else{
+  //       toast.error(data.message);
+  //     }
+  //   } catch (error) {
+  //     toast.error("Something went wrong in updating category");
+  //   }
+  // }
 
 
   const handleDelete = async (id) =>{
     try {
-      const {data} = await axios.delete(`${import.meta.env.VITE_API}/api/v1/category/delete-category/${id}`);
-      // console.log(data);
+      const {data} = await api.delete(`/api/categories/${id}`);
+      // console.log("backend category",id,data);
       if(data?.success){
-        toast.success(`${data.deletedCategory.name} Deleted Successfully`);
+        // toast.success(`${data.deletedCategory.name} Deleted Successfully`);
+        toast.success(`category Deleted Successfully`);
         getAllCategory();
       }else{
         toast.error(data.message);
@@ -105,8 +104,8 @@ const CreateCategory = () => {
                     {categories?.map((c) => (   
                       <tr key={c._id}>
                         <td>{c.name}</td>
-                          <td><button className='btn btn-primary' onClick={() => {setVisible(true); setUpdatedName(c.name); setSelected(c)}} >Edit</button>
-                          <button className='btn btn-danger ms-3' onClick={()=> handleDelete(c._id)} >Delete</button>
+                          {/* <button className='btn btn-primary' onClick={() => {setVisible(true); setUpdatedName(c.name); setSelected(c)}} >Edit</button> */}
+                          <td><button className='btn btn-danger ms-3' onClick={()=> handleDelete(c._id)} >Delete</button>
                         </td>
                       </tr>
                   ))}
@@ -115,9 +114,9 @@ const CreateCategory = () => {
 
               </div>
             </div>
-            <Modal onCancel={() => setVisible(false)} footer={null} open={visible} >
+            {/* <Modal onCancel={() => setVisible(false)} footer={null} open={visible} >
               <CategoryForm value={updatedName} setValue={setUpdatedName} handleSubmit={handleUpdate} />
-            </Modal>
+            </Modal> */}
           </div>
 
         </div>

@@ -1,9 +1,13 @@
 import express from 'express';
 import { protect } from '../middlewares/auth.js';
-import { getCartController, syncCartController } from '../controllers/userController.js';
+import { addToCart, clearCart, getCart, removeFromCart, updateCartQuantity } from '../controllers/userController.js';
 const router = express.Router();
 
-router.get("/cart", protect, getCartController); 
-router.post("/cart-sync", protect, syncCartController);
+router.post("/cart", protect, addToCart);
+router.get("/cart", protect, getCart);
+router.delete("/cart/:productId", protect, removeFromCart);
+router.delete("/cart", protect, clearCart);
+router.put("/cart", protect, updateCartQuantity);
+
 
 export default router;

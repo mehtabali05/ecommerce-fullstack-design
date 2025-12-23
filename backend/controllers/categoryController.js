@@ -40,3 +40,52 @@ export const createCategory = async (req, res) => {
     });
   }
 };
+
+export const updateCategoryController = async (req,res) => {
+  try{
+      let {name} = req.body;
+      let {id} = req.params;
+
+      const category = await CategoryModel.findByIdAndUpdate(id,{name,slug:slugify(name)},{new:true});
+      res.status(200).send({
+          success: true,
+          message: "Category Updated Successfully",
+          category,
+      });
+
+  }catch(error){
+      // console.log(error);
+      res.status(500).send({
+          success: false,
+          error,
+          message: "Error white updating category"
+      })
+  }
+}
+
+
+export const deleteCategoryController = async (req,res) => {
+  try {
+      const {id} = req.params;
+      // console.log("id",id);
+      const deletedCategory = await Category.findByIdAndDelete(id);
+      if(!deletedCategory){
+          return res.status(400).send({
+              success: false,
+              message: "This category does not exists",
+          });
+      }
+      res.status(200).send({
+          success: true,
+          message: "Category deleted successfully",
+          deletedCategory
+      });
+  } catch (error) {
+      // console.log(error);
+      res.status(500).send({
+          success: false,
+          error,
+          message: "Error while deleting category",
+      });
+  }
+}

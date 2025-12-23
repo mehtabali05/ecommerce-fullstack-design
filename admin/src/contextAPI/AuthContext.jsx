@@ -11,8 +11,9 @@ const AuthContextProvider = ({children}) =>{
         const checkAdminAuth = async () => {
         try {
             const { data } = await api.get("/api/auth/admin-auth-check");
+            // console.log("Admin",data);
             if (data?.ok) {
-                setAuth(data.user);
+                setAuth({ user: data.user });
             }
         } catch (error) {
             setAuth(null);

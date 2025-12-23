@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Grid, List } from 'lucide-react';
+import { useSearchParams } from "react-router-dom";
 import Breadcrumb from '../components/Breadcrumb';
 import Sidebar from '../components/Sidebar';
 import ProductCard from '../components/products/ProductCard';
 import ProductListView from '../components/products/ProductListView';
-// import { products } from '../data/products';
 import Newsletter from '../components/NewsLetter';
 import { api } from './../api';
  
@@ -22,21 +22,11 @@ export default function Products() {
   const [limit, setLimit] = useState(9);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
-//   // -------------------------
- 
-//   // Updated Fetch logic with query params
-  // const fetchProducts = async () => {
-  //   try {
-  //     const { data } = await api.get(`/api/products?page=${page}&limit=${limit}&sort=${sort}`);
-  //     if (data.success) {
-  //       setProducts(data.products);
-  //       setTotalPages(data.totalPages);
-  //       setTotalItems(data.totalCount);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("search") || "";
+
+
 
   const fetchProducts = async () => {
     try {
@@ -44,7 +34,8 @@ export default function Products() {
         page,
         limit,
         sort,
-        ...(selectedCategory && { category: selectedCategory })
+        ...(selectedCategory && { category: selectedCategory }),
+        ...(search && { search }),
       }).toString();
   
       const { data } = await api.get(`/api/products?${query}`);
@@ -63,24 +54,8 @@ export default function Products() {
   useEffect(() => {
     fetchProducts();
     window.scrollTo({ top: 0, behavior: 'smooth' }); 
-  }, [page, limit,sort,selectedCategory]); // Re-run when page or limit changes
+  }, [page, limit,sort,selectedCategory,search]); // Re-run when page or limit changes
 
-  // const fetchProducts = async () => {
-  //   try {
-  //     const {data} = await api.get("/api/products");
-  //     console.log(data);
-  //     if(data.success){
-  //       setProducts(data.products);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-      
-  //   }
-  // }
-
-  // useEffect(()=>{
-  //   fetchProducts();
-  // },[])
 
   const removeFilter = (filter) => {
     setActiveFilters(activeFilters.filter(f => f !== filter));
@@ -126,10 +101,19 @@ export default function Products() {
 
           <div className="flex-1">
             {/* Header */}
-            <div className="flex bg-white px-5 py-3 border border-gray-100 items-center justify-between mb-6">
-              <h1 className="text-xl font-semibold">
+            <div className="flex bg-white px-5 py-3 border items-center justify-between mb-6">
+              {/* <h1 className="text-xl font-semibold">
               {totalItems} <span className="font-bold">Mobile accessory</span>
+              </h1> */}
+              <h1 className="text-xl font-semibold">
+                {totalItems} items in <span className='text-bold'>Mobile accessory</span>
+                {search && (
+                  <span className="ml-2 text-gray-500">
+                    for “{search}”
+                  </span>
+                )}
               </h1>
+
               <div className="flex items-center gap-4">
                 <label className="flex items-center gap-2 text-sm">
                   <input type="checkbox" className="w-4 h-4 rounded border-gray-300" />
@@ -255,4 +239,6 @@ export default function Products() {
     </div>
   );
 }
+
+
 

@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 export default function ProductListView({ product }) {
   return (
     <Link
-      to={`/product/${product.id}`}
+      to={`/product/${product._id}`}
       className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow flex gap-4 group"
     >
       <div className="relative flex-shrink-0">
@@ -50,23 +50,24 @@ export default function ProductListView({ product }) {
           </button> */}
           </div>
           
-          {/* <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-3">
             <div className="flex">
               {Array.from({ length: 5 }).map((_, i) => (
                 <span
                   key={i}
-                  className={i < Math.floor(product.rating / 2) ? 'text-orange-400 text-xl' : 'text-gray-300 text-xl'}
+                  // className={i < Math.floor(product.rating / 2) ? 'text-orange-400 text-xl' : 'text-gray-300 text-xl'}
+                  className={i < Math.floor(5) ? 'text-orange-400 text-xl' : 'text-gray-300 text-xl'}
                 >
                   ★
                 </span>
               ))}
             </div>
-            <span className="text-orange-500 font-medium">{product.rating.toFixed(1)}</span>
+            <span className="text-orange-500 font-medium">{7.5}</span>
             <span className="text-gray-400">•</span>
-            <span className="text-gray-600">{product.reviews} orders</span>
+            <span className="text-gray-600">{154} orders</span>
             <span className="text-gray-400">•</span>
             <span className='text-[#00B517]'>Free shipping</span>
-          </div> */}
+          </div>
 
           <p className="text-gray-600 mb-3 line-clamp-2 pr-20">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.

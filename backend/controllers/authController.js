@@ -1,6 +1,5 @@
 import User from "../models/User.js";
 import generateToken from "../utils/jwt.js";
-import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {
   try {
@@ -15,7 +14,7 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const user = await User.create({ name, email, password, role });
+    const user = await User.create({ name, email, password, role: "user" });
 
     res.status(201).json({
       success: true,
@@ -74,18 +73,29 @@ export const login = async (req, res) => {
   }
 };
 
-export const adminAuthCheck = (req, res) => {
-  // If this function executes, it means the JWT was valid and the role was 'admin'
-  res.status(200).json({ 
-      ok: true, 
-      message: "Admin authorized",
-      // You can optionally send the user data back for context (req.user is set by protect middleware)
-      user: {
-          _id: req.user._id,
-          name: req.user.name,
-          role: req.user.role 
-      }
-  });
+export const adminAuthCheck = async (req, res) => {
+    try {
+      const user = await User.findById(req.user.id);
+      // console.log("Admin User backend", user);
+      res.status(200).json({ 
+        ok: true, 
+        message: "Admin authorized",
+        user: {
+            _id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role 
+        }
+    });
+    } catch (error) {
+      console.error(error.message);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+        error: error.message
+      })
+    }
+
 };
 
 export const logout = (req, res) => {

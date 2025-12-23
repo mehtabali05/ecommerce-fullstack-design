@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import Login from './pages/authentication/Login'
 import Register from './pages/authentication/Register'
 import Header from './components/layout/Header'
+import About from './pages/About'
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path='/product-grid' element={<ProductGrid />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/about-us' element={<About />} />
       </Routes>
 
     <Footer />  

@@ -3,25 +3,21 @@
   import toast from 'react-hot-toast';
   import AdminMenu from '../../components/AdminMenu.jsx';
   import { AuthContext } from '../../contextAPI/AuthContext.jsx';
-
+  import '../../style/authStyle.css';
   const AdminProfile = () => {
     const {auth, setAuth} = useContext(AuthContext);
     let [name,setName] = useState("");
     let [email,setEmail] = useState("");
     let [password,setPassword] = useState("");
-    let [phone,setPhone] = useState("");
-    let [address,setAddress] = useState("");
 
     useEffect(() => {
       if (auth?.user) {
         const { name, email, phone, address } = auth.user;
-        // console.log(name, email, phone, address);
+        console.log(name, email, phone, address);
         setName(name || "");
         setEmail(email || "");
-        setPhone(phone || "");
-        setAddress(address || "");
       }
-    }, [auth?.user]);
+    }, [auth]);
 
   const handleSubmit = async (e) =>{
       e.preventDefault();
@@ -66,13 +62,13 @@
                           <input autoComplete="current-password" type="password" placeholder='Enter Your Password' className="form-control" id="exampleInputPassword" value={password} onChange={(e) => setPassword(e.target.value)}  />
                       </div>
                 
-                      <div className="mb-3">
+                      {/* <div className="mb-3">
                           <input autoComplete="tel" type="text" placeholder='Enter Your Phone' className="form-control" id="exampleInputPhone" value={phone} onChange={(e) => setPhone(e.target.value)}  />
                       </div>
                   
                       <div className="mb-3">
                           <input autoComplete="street-address" type="text" placeholder='Enter Your Address' className="form-control" id="exampleInputAddress" value={address} onChange={(e) => setAddress(e.target.value)}  />
-                      </div>
+                      </div> */}
                   
                 
                       <button type="submit" className="btn btn-primary">UPDATE</button>

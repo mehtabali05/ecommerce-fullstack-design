@@ -1,112 +1,130 @@
-import { useState, createContext, useContext, useEffect, useRef } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { api } from "../api";
 import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
 
 const CartContext = createContext();
+let quantityTimeout;
 
 export const CartProvider = ({ children }) => {
+  const { auth, loading } = useAuth();
   const [cart, setCart] = useState([]);
-  const isInitialMount = useRef(true);
-  const { auth } = useAuth();
 
-  // 🔹 1. Load cart only after auth is available
+  // Load cart on login
   useEffect(() => {
-    if (!auth?._id) return;
+    if (loading || !auth) return;
 
     const loadCart = async () => {
       try {
-        console.log("Auth",auth);
-        const { data } = await api.get("/api/user/cart");
-        console.log("Cart Loading",data);
-        if (Array.isArray(data)) setCart(data);
+        const res = await api.get("/api/user/cart");
+        setCart(res.data);
       } catch (error) {
-        console.error("Cart load error:", error);
-        setCart([]); // clear cart if unauthorized
+        console.error("Cart load failed");
+        setCart([]);
       }
     };
 
     loadCart();
-  }, [auth?._id]);
+  }, [auth, loading]);
 
-  // 🔹 2. Sync cart with DB (send productId instead of _id)
-  useEffect(() => {
-    if (!auth?._id) return;
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    const syncCart = async () => {
-      try {
-        const cartItems = cart.map(item => ({
-          productId: item._id, // 🔹 backend expects productId
-          quantity: item.quantity
-        }));
-
-        await api.post("/api/user/cart-sync", { cartItems });
-        console.log("Cart synced successfully");
-      } catch (error) {
-        console.error("Cart sync failed:", error);
-      }
-    };
-
-    const timer = setTimeout(syncCart, 800);
-    return () => clearTimeout(timer);
-  }, [cart, auth?._id]);
-
-  /* ================================
-     CART ACTIONS
-     ================================ */
-  const addToCart = (product) => {
-    setCart(prev => {
-      const exists = prev.find(item => item._id === product._id);
-      if (exists) {
-        return prev.map(item =>
-          item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      }
-      return [...prev, { ...product, quantity: 1 }];
-    });
+  // Add to cart
+  const addToCart = async (productId, quantity = 1) => {
+    await api.post("/api/user/cart", { productId, quantity });
+    const res = await api.get("/api/user/cart");
+    setCart(res.data);
     toast.success("Added to cart");
   };
 
-  const removeFromCart = (pid) => {
-    setCart(prev => prev.filter(item => item._id !== pid));
-    toast.error("Removed from cart");
-  };
-
-  const updateQuantity = (pid, qty) => {
-    if (qty < 1) return;
-    setCart(prev =>
-      prev.map(item =>
-        item._id === pid ? { ...item, quantity: qty } : item
-      )
-    );
-  };
-
-  const clearCart = async () => {
-    setCart([]);
-    localStorage.removeItem("cart");
+  // Remove from cart
+  // const removeFromCart = async (productId) => {
+  //   await api.delete(`/api/user/cart/${productId}`);
+  //   setCart(prev => prev.filter(item => item._id !== productId));
+  //   toast.success("Removed from cart");
+  // };
+  const removeFromCart = async (productId) => {
+    const previousCart = cart;
+  
+    setCart(prev => prev.filter(item => item._id !== productId));
+  
     try {
-      if (auth?._id) {
-        await api.post("/api/user/cart-sync", { cartItems: [] });
-      }
+      await api.delete(`/api/user/cart/${productId}`);
+      toast.success("Removed from cart");
     } catch (error) {
-      console.error(error);
+      setCart(previousCart); // rollback
+      toast.error("Failed to remove item");
     }
   };
+  
 
-  const totalPrice = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  const clearCart = async () => {
+    await api.delete("/api/user/cart");
+    setCart([]);
+    toast.success("Cart cleared");
+  };
+  
+
+  const updateQuantity = (productId, quantity) => {
+    if (quantity < 1) return;
+  
+    // 1️⃣ Update UI immediately
+    setCart(prev =>
+      prev.map(item =>
+        item._id === productId
+          ? { ...item, quantity }
+          : item
+      )
+    );
+  
+    // 2️⃣ Debounce backend call
+    clearTimeout(quantityTimeout);
+  
+    quantityTimeout = setTimeout(async () => {
+      try {
+        await api.put("/api/user/cart", {
+          productId,
+          quantity
+        });
+      } catch {
+        toast.error("Failed to update quantity");
+      }
+    }, 400);
+  };
+  
+  
+
+  // Total price (memoized)
+  const totalPrice = useMemo(() => {
+    return cart.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
+  }, [cart]);
+
+  const cartCount = useMemo(() => {
+    return cart.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+  }, [cart]);
+  
+  useEffect(() => {
+    console.log("Cart length:", cart.length);
+    console.log("Cart count:", cartCount);
+  }, [cart, cartCount]);
+  
+  
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, totalPrice }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        updateQuantity,
+        totalPrice,
+        cartCount
+      }}
     >
       {children}
     </CartContext.Provider>

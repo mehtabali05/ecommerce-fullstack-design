@@ -24,11 +24,11 @@ export default function ProductCard({ product }) {
           <div className='flex flex-col '>
             <div className="flex items-center gap-2">
               <span className="text-xl font-bold">${product.price.toFixed(2)}</span>
-              {product.originalPrice && (
-                <span className="text-gray-400 line-through">
-                  ${product.originalPrice.toFixed(2)}
-                </span>
-              )}
+              <span className="text-gray-400 line-through">
+                ${1128}.00
+              </span>
+              {/* {product.originalPrice && (
+              )} */}
             </div>
 
             <div className="flex items-center gap-1">
@@ -36,13 +36,13 @@ export default function ProductCard({ product }) {
                 {Array.from({ length: 5 }).map((_, i) => (
                   <span
                     key={i}
-                    className={i < Math.floor(product.rating / 2) ? 'text-orange-400 text-xl' : 'text-gray-300 text-xl'}
+                    className={i < Math.floor(5) ? 'text-orange-400 text-xl' : 'text-gray-300 text-xl'}
                   >
                     ★
                   </span>
                 ))}
               </div>
-              {/* <span className="text-md text-orange-500 font-medium">{product.rating.toFixed(1)}</span> */}
+              <span className="text-md text-orange-500 font-medium">{7.5}</span>
             </div>
           </div>
 

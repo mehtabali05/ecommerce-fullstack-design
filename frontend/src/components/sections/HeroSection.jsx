@@ -2,8 +2,11 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import avatar from '../../assets/Brand/Avatar.png'
 import banner from '../../assets/Brand/Banner.png'
+import { useAuth } from '../../context/AuthContext';
 
 function HeroSection() {
+  const {auth} = useAuth();
+  console.log("Auth in Hero",auth?.user);
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="grid grid-cols-12 gap-4 border border-gray-200 bg-white p-4">
@@ -42,7 +45,7 @@ function HeroSection() {
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
                 Electronic items
               </h2>
-              <Link to="/about" className="px-6 mt-5 cursor-pointer py-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors font-medium">
+              <Link to="/about-us" className="px-6 mt-5 cursor-pointer py-2 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors font-medium">
                 Learn more
               </Link>
             </div>

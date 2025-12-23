@@ -1,50 +1,123 @@
 // controllers/userController.js (or create cartController.js)
 import User from "../models/User.js";
 
-// GET user cart
-export const getCartController = async (req, res) => {
+export const getCart = async (req, res) => {
   try {
-    // 1. Find user and populate. 
-    // IMPORTANT: Ensure the path matches your User Model field name exactly
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id)
+      .populate("cart.productId");
 
-    console.log("Bakend ",user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    // 2. Transform the data so the frontend gets exactly what it needs
-    const formattedCart = user.cart
-      .filter(item => item.productId) // Remove items where product might have been deleted
-      .map((item) => ({
+    // ✅ FILTER invalid cart items
+    const cart = user.cart
+      .filter(item => item.productId) // CRITICAL FIX
+      .map(item => ({
         _id: item.productId._id,
         name: item.productId.name,
         price: item.productId.price,
-        mainImage: item.productId.mainImage,
-        quantity: item.quantity || 1,
-        description: item.productId.description
+        image: item.productId.mainImage,
+        quantity: item.quantity
       }));
 
-    res.status(200).json(formattedCart);
+    res.status(200).json(cart);
   } catch (error) {
-    console.error("Cart Fetch Error:", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+    console.error("Get Cart Error:", error);
+    res.status(500).json({ message: "Failed to fetch cart" });
   }
 };
 
-// SYNC user cart (Send the whole array from frontend to DB)
-export const syncCartController = async (req, res) => {
+
+export const addToCart = async (req, res) => {
   try {
-    const { cartItems } = req.body; // Array of {_id, quantity}
+    const { productId, quantity } = req.body;
+    if (!productId) {
+      return res.status(400).json({ message: "Invalid product" });
+    }
 
-    const updatedCart = cartItems.map(item => ({
-      productId: item.productId,
-      quantity: item.quantity
-    }));
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    await User.findByIdAndUpdate(req.user._id, { cart: updatedCart });
-    res.status(200).send({ success: true, message: "Cart synced successfully" });
+    // ✅ FILTER OUT broken items before logic
+    user.cart = user.cart.filter(item => item.productId);
+
+    const itemIndex = user.cart.findIndex(
+      item => item.productId.toString() === productId
+    );
+
+    if (itemIndex > -1) {
+      user.cart[itemIndex].quantity += quantity;
+    } else {
+      user.cart.push({ productId, quantity });
+    }
+
+    await user.save();
+    res.status(200).json({ success: true });
   } catch (error) {
-    res.status(500).send({ success: false, message: "Error syncing cart" });
+    console.error("Add To Cart Error:", error);
+    res.status(500).json({ message: "Failed to add to cart" });
   }
 };
+
+
+export const removeFromCart = async (req, res) => {
+  const { productId } = req.params;
+
+  await User.findByIdAndUpdate(req.user.id, {
+    $pull: { cart: { productId } }
+  });
+
+  res.json({ success: true });
+};
+
+export const clearCart = async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      $set: { cart: [] }
+    });
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Clear Cart Error:", error);
+    res.status(500).json({ message: "Failed to clear cart" });
+  }
+};
+
+export const updateCartQuantity = async (req, res) => {
+  try {
+    const { productId, quantity } = req.body;
+
+    if (!productId || quantity < 1) {
+      return res.status(400).json({ message: "Invalid data" });
+    }
+
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const item = user.cart.find(
+      item => item.productId.toString() === productId
+    );
+
+    if (!item) {
+      return res.status(404).json({ message: "Item not in cart" });
+    }
+
+    // ✅ SET quantity (NOT ADD)
+    item.quantity = quantity;
+
+    await user.save();
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Update Quantity Error:", error);
+    res.status(500).json({ message: "Failed to update quantity" });
+  }
+};
+
+
+
 

@@ -14,7 +14,7 @@ function CategorySection({ title, bgColor, bgImage,products}) {
           <div className="relative z-10">
             <h2 className="text-xl font-bold text-gray-900 mb-4">{title}</h2>
             <Link to="/products" className="px-4 py-2 mt-5 bg-white text-gray-900 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer font-medium">
-              Shop now
+              Source now
             </Link>
           </div>
         </div>
