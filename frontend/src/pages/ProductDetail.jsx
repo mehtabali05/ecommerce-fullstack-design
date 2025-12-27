@@ -20,7 +20,7 @@ export default function ProductDetail() {
   const fetchProduct = async () => {
     try {
       const {data} = await api.get(`/api/products/${id}`);
-      console.log("Single Product Data",data);
+      // console.log("Single Product Data",data);
       if(data?.success){
         setProduct(data.product);
       }else{
@@ -28,7 +28,7 @@ export default function ProductDetail() {
       }
     } catch (error) {
       console.error(error.message);
-      toast.error(error.message);
+      // toast.error(error.message);
     }
   }
 

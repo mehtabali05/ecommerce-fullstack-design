@@ -102,9 +102,6 @@ export default function Products() {
           <div className="flex-1">
             {/* Header */}
             <div className="flex bg-white px-5 py-3 border items-center justify-between mb-6">
-              {/* <h1 className="text-xl font-semibold">
-              {totalItems} <span className="font-bold">Mobile accessory</span>
-              </h1> */}
               <h1 className="text-xl font-semibold">
                 {totalItems} items in <span className='text-bold'>Mobile accessory</span>
                 {search && (

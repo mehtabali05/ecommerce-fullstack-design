@@ -12,14 +12,14 @@ export const CartProvider = ({ children }) => {
 
   // Load cart on login
   useEffect(() => {
-    if (loading || !auth) return;
 
+    if (loading || !auth) return;
     const loadCart = async () => {
       try {
         const res = await api.get("/api/user/cart");
         setCart(res.data);
       } catch (error) {
-        console.error("Cart load failed");
+        // console.error("Cart load failed");
         setCart([]);
       }
     };
@@ -35,12 +35,6 @@ export const CartProvider = ({ children }) => {
     toast.success("Added to cart");
   };
 
-  // Remove from cart
-  // const removeFromCart = async (productId) => {
-  //   await api.delete(`/api/user/cart/${productId}`);
-  //   setCart(prev => prev.filter(item => item._id !== productId));
-  //   toast.success("Removed from cart");
-  // };
   const removeFromCart = async (productId) => {
     const previousCart = cart;
   
@@ -107,10 +101,6 @@ export const CartProvider = ({ children }) => {
     );
   }, [cart]);
   
-  useEffect(() => {
-    console.log("Cart length:", cart.length);
-    console.log("Cart count:", cartCount);
-  }, [cart, cartCount]);
   
   
 

@@ -10,6 +10,7 @@ export const AuthContextProvider = ({ children }) => {
 
   // On mount, check if user is logged in via cookie
   useEffect(() => {
+    
     const checkAuth = async () => {
       try {
         const { data } = await api.get("/api/auth/me"); // Backend route returns user if token is valid

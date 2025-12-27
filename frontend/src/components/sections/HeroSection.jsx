@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 
 function HeroSection() {
   const {auth} = useAuth();
-  console.log("Auth in Hero",auth?.user);
+  // console.log("Auth in Hero",auth?.user);
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="grid grid-cols-12 gap-4 border border-gray-200 bg-white p-4">

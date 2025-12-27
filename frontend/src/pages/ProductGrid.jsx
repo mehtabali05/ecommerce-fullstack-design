@@ -17,7 +17,7 @@ export default function ProductGrid() {
   const fetchProducts = async () => {
     try {
       const {data} = await api.get("/api/products");
-      console.log("Grid Page data",data);
+      // console.log("Grid Page data",data);
       if(data?.success){
         setProducts(data.products);
       }

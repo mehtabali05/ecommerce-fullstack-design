@@ -6,6 +6,7 @@ import { api } from '../../api';
 import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
+
     const [formData,setFormData] = useState({
         email:"",
         password:""
@@ -13,7 +14,6 @@ const Login = () => {
 
     const {setAuth} = useAuth();
     const navigate = useNavigate();
-    // const location = useLocation();
 
     const handleSubmit = async (e) =>{
         e.preventDefault();

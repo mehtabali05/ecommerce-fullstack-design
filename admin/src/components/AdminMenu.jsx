@@ -10,7 +10,7 @@ const AdminMenu = () => {
                 <NavLink to={"/create-category"} className="list-group-item list-group-item-action">Create Category</NavLink>
                 <NavLink to={"/create-product"} className="list-group-item list-group-item-action">Create Products</NavLink>
                 <NavLink to={"/products"} className="list-group-item list-group-item-action">Products</NavLink>
-                <NavLink to={"/orders"} className="list-group-item list-group-item-action">Orders</NavLink>
+                {/* <NavLink to={"/orders"} className="list-group-item list-group-item-action">Orders</NavLink> */}
                 <NavLink to={"/profile"} className="list-group-item list-group-item-action">Profile</NavLink>
             </div>
         </div>

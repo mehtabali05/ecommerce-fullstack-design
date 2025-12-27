@@ -269,12 +269,6 @@ function Header() {
               </nav>
             </div>
             <div className="flex items-center gap-4">
-              {/* English, USD
-              <select className="flex items-center gap-1 text-gray-900 hover:text-gray-600">
-                
-                <ChevronDown className="w-3 h-3" />
-              </select>
-              Ship to */}
               <div className="flex items-center gap-6 relative">
                 {/* Language & Currency Dropdown */}
                 <div className="relative">

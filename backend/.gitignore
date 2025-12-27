@@ -11,7 +11,7 @@
 /dist
 /build
 /out
-
+.env
 # Runtime/Logs
 # Log files
 *.log

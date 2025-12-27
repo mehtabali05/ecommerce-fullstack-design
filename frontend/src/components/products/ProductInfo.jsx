@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 export default function ProductInfo({pId}) {
   const [product,setProduct] = useState({});
+  
   const fetchProduct = async () => {
     try {
       const {data} = await api.get(`/api/products/${pId}`);

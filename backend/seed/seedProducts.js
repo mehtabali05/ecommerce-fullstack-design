@@ -14,47 +14,21 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 cloudinary.config({
-  cloud_name: "dixbxk00g",
-  api_key: "917223836798255",
-  api_secret: "LfETpy5Pp30U41KRVYNh94mEI6A",
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: CLOUDINARY_API_KEY,
+  api_secret: CLOUDINARY_API_SECRET,
 });
 
 const connectDb = async () => {
     try {
         // Using your provided connection string
-        await mongoose.connect("mongodb+srv://ecommerce_user:ecommerce_password@cluster0.yxkuubj.mongodb.net/e-commerce_fullstack_db");
+        await mongoose.connect(process.env.MONGODB_URI);
         console.log("📦 Connected to MongoDB");
     } catch (err) {
         console.error("Database connection error", err);
         process.exit(1);
     }
 }
-
-// const uploadLocalImage = async (localPath) => {
-//     try {
-//         // 1. Force the path to be absolute relative to this script
-//         // localPath is "./images/tech/1.png"
-//         // __dirname is ".../project/seed"
-//         const absolutePath = path.resolve(__dirname, localPath);
-        
-//         // 2. Debug: Check if the file actually exists on your hard drive
-//         if (!fs.existsSync(absolutePath)) {
-//             console.error(`❌ FILE NOT FOUND at: ${absolutePath}`);
-//             return null; 
-//         }
-
-//         const result = await cloudinary.uploader.upload(absolutePath, {
-//             folder: "e-commerce/seeded-products",
-//             use_filename: true
-//         });
-        
-//         console.log(`✅ Uploaded to Cloudinary: ${path.basename(localPath)}`);
-//         return result.secure_url;
-//     } catch (error) {
-//         console.error(`❌ Cloudinary Error for ${localPath}:`, error.message);
-//         return null; 
-//     }
-// };
 
 const uploadLocalImage = async (localPath) => {
     try {

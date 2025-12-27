@@ -26,7 +26,7 @@ const Register = () => {
         e.preventDefault();
         try{
             const {data} = await api.post("/api/auth/register",formData);
-            console.log("Response from register api ",data);
+            // console.log("Response from register api ",data);
             if(data.success){
                 toast.success(data.message);
                 navigate("/login");

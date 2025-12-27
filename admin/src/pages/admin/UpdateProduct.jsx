@@ -39,7 +39,7 @@ const UpdateProduct = () => {
   const getSingleProduct = async () => {
     try {
       const { data } = await api.get(`/api/products/${params.id}`);
-      console.log("Single product", data);
+      // console.log("Single product", data);
       if (data?.success) {
         const p = data.product;
         setName(p.name);

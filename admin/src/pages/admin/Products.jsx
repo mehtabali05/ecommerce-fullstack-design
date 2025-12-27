@@ -6,29 +6,9 @@ import { api } from '../../api.js';
 import { useSearchParams } from 'react-router-dom';
 
 const Products = () => {
-    // const [products,setProducts] = useState([]);
- 
 
-    // const getAllProducts = async () =>{
-    //     try {
-    //         const {data} = await api.get("/api/products");
-    //         console.log(data);
-    //         if(data?.success){
-    //             // toast.success(data.message);
-    //             setProducts(data.products);
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //         toast.error("Something went wrong");
-    //     }
-    // }
-
-    // useEffect(()=>{
-    //     getAllProducts();
-    // },[]);
-
-    const [products,setProducts] = useState([]);
-    const [page, setPage] = useState(1);
+  const [products,setProducts] = useState([]);
+  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(34);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
@@ -63,6 +43,7 @@ const Products = () => {
   useEffect(() => {
     fetchProducts();
   }, [page, limit,sort,selectedCategory,search]); 
+  
   return (
     <div className="container-fluid admin-products">      
       <div className="row mt-3 p-2">

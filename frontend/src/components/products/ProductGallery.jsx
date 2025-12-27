@@ -32,7 +32,6 @@ export default function ProductGallery({pId}) {
 
   if (!product) return <div className="p-7 text-center text-gray-500">Loading Gallery...</div>;
  
-  // const allImages = [product.mainImage, ...(product.images || [])];
   return (
     <div className="space-y-4 p-7">
       {/* Main image */}

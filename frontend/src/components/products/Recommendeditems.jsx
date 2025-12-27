@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 
 function RecommendedItems() {
   const [products,setProducts] = useState([]);
-    const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [totalItems, setTotalItems] = useState(0);

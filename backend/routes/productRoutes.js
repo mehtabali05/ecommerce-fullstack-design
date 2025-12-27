@@ -4,7 +4,7 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-  getProducts,
+  // getProducts,
   getProductById,
   relatedProducts,
   getProductListController

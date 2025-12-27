@@ -43,11 +43,6 @@ export default function ProductListView({ product }) {
               <span>Free shipping</span>
             </div> */}
           </div>
-
-          {/* <button className="flex items-center gap-2 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 font-medium">
-            <ShoppingCart className="w-4 h-4" />
-            Add to cart
-          </button> */}
           </div>
           
           <div className="flex items-center gap-2 mb-3">

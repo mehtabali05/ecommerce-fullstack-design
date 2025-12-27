@@ -131,9 +131,6 @@ export const deleteProduct = async (req, res) => {
     const prod = await Product.findById(req.params.id);
     if (!prod) return res.status(404).json({ message: "Product not found" });
 
-    // For simplicity we are not deleting images from Cloudinary in this simple build.
-    // You can extend to store public_id and remove them via cloudinary.uploader.destroy(public_id)
-
     await Product.findByIdAndDelete(req.params.id);
     res.json({ 
       success: true,

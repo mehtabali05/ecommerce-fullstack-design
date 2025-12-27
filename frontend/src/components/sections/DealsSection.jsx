@@ -1,15 +1,7 @@
 import React from 'react';
-// import { Clock } from 'lucide-react';
 import {dealsAndOffers} from '../../assets/asset';
 import { Link } from 'react-router-dom';
 
-// const products = [
-//   { id: 1, name: 'Smart watches', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop', discount: '-25%' },
-//   { id: 2, name: 'Laptops', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=200&h=200&fit=crop', discount: '-15%' },
-//   { id: 3, name: 'GoPro cameras', image: 'https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=200&h=200&fit=crop', discount: '-40%' },
-//   { id: 4, name: 'Headphones', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop', discount: '-25%' },
-//   { id: 5, name: 'Canon cameras', image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=200&h=200&fit=crop', discount: '-25%' }
-// ];
 
 function DealsSection() {
   return (
